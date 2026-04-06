@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantCare AI</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f4fce8; }
+        .upload-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        button { background: #2d7a2d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        button:hover { background: #1e5c1e; }
+        #result { margin-top: 20px; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+
+    <div class="upload-box">
+        <h1>🌿 PlantCare AI</h1>
+        <p>Upload a leaf to detect diseases.</p>
+        
+        <input type="file" id="imageInput" accept="image/*" />
+        <br>
+        <button id="analyzeBtn">Analyze Leaf</button>
+        
+        <div id="result">Waiting for image...</div>
+    </div>
+
+    <script type="module">
+        import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+
+        document.getElementById("analyzeBtn").addEventListener("click", async () => {
+            const fileInput = document.getElementById("imageInput");
+            const resultDiv = document.getElementById("result");
+
+            if (fileInput.files.length === 0) {
+                resultDiv.innerText = "Please select an image first!";
+                return;
+            }
+
+            resultDiv.innerText = "🤖 AI is analyzing... please wait!";
+            
+            try {
+                // Connect to your specific Hugging Face Space
+                const app = await client("YOUR_HUGGINGFACE_USERNAME/YOUR_SPACE_NAME");
+                
+                // Get the file and send it to the AI
+                const imageFile = fileInput.files[0];
+                const result = await app.predict(0, [ imageFile ]); 
+                
+                // Display the result!
+                resultDiv.innerText = "Analysis Complete: " + result.data[0];
+            } catch (error) {
+                resultDiv.innerText = "Error: Could not reach the AI.";
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
