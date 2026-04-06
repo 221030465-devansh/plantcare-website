@@ -5,24 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlantCare AI</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f4fce8; }
-        .upload-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        button { background: #2d7a2d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        /* Base Website Styles */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px; background: #f4fce8; }
+        .upload-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        button { background: #2d7a2d; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 15px; font-weight: bold; transition: 0.3s; }
         button:hover { background: #1e5c1e; }
-        #result { margin-top: 20px; font-weight: bold; color: #333; }
+        #result { margin-top: 20px; }
+
+        /* Styles to make your Hugging Face HTML Output look beautiful! */
+        .result-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 20px; text-align: left; }
+        .result-header { padding: 20px; color: white; text-align: center; }
+        .status-healthy { background: #2d7a2d; }
+        .status-diseased { background: #d32f2f; }
+        .status-uncertain { background: #f57c00; }
+        .status-badge { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; margin-bottom: 5px; opacity: 0.9; }
+        .disease-name { font-size: 1.8rem; font-weight: bold; margin-bottom: 5px; }
+        .conf-badge span { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+        
+        .result-body { padding: 25px; }
+        .section { margin-bottom: 25px; }
+        .section-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; color: #2d7a2d; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        .section-text { color: #444; line-height: 1.6; }
+        
+        .remedy-list { padding-left: 20px; margin: 0; }
+        .remedy-item { margin-bottom: 8px; color: #444; line-height: 1.5; }
+        
+        .top3-container { margin-top: 10px; }
+        .top3-item { display: flex; align-items: center; margin-bottom: 8px; }
+        .top3-name { flex: 0 0 40%; font-size: 0.9rem; color: #555; text-align: right; padding-right: 15px; }
+        .top3-bar-wrap { flex: 1; background: #eee; height: 12px; border-radius: 6px; overflow: hidden; }
+        .top3-bar { height: 100%; background: #2d7a2d; }
+        .top3-pct { flex: 0 0 15%; font-size: 0.9rem; font-weight: bold; color: #333; text-align: left; padding-left: 10px; }
     </style>
 </head>
 <body>
 
     <div class="upload-box">
         <h1>🌿 PlantCare AI</h1>
-        <p>Upload a leaf to detect diseases.</p>
+        <p>Upload a leaf to get instant disease detection and treatment advice.</p>
         
         <input type="file" id="imageInput" accept="image/*" />
         <br>
-        <button id="analyzeBtn">Analyze Leaf</button>
+        <button id="analyzeBtn">🔍 Analyze Leaf</button>
         
-        <div id="result">Waiting for image...</div>
+        <div id="result"></div> 
     </div>
 
     <script type="module">
@@ -33,26 +59,25 @@
             const resultDiv = document.getElementById("result");
 
             if (fileInput.files.length === 0) {
-                resultDiv.innerText = "Please select an image first!";
+                resultDiv.innerHTML = "<p style='color: red; font-weight: bold;'>Please select an image first!</p>";
                 return;
             }
 
-            resultDiv.innerText = "🤖 AI is analyzing... please wait!";
+            resultDiv.innerHTML = "<p>🤖 <strong>AI is analyzing... please wait!</strong></p>";
             
             try {
                 // Connect to your specific Hugging Face Space
                 const app = await client("dev312/plantcare_major");
                 
-                // Get the file and send it to the AI
                 const imageFile = fileInput.files[0];
-                
-                // FIXED LINE: Use "/predict" instead of 0
                 const result = await app.predict("/predict", [ imageFile ]); 
                 
-                // Display the result!
-                resultDiv.innerText = "Analysis Complete: " + result.data[0];
+                // IMPORTANT FIX: We use innerHTML so the browser draws the boxes/colors
+                // instead of just printing the raw code text!
+                resultDiv.innerHTML = result.data[0];
+
             } catch (error) {
-                resultDiv.innerText = "Error: Could not reach the AI.";
+                resultDiv.innerHTML = "<p style='color: red;'>Error: Could not reach the AI. Check if the space is awake!</p>";
                 console.error(error);
             }
         });
