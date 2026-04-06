@@ -45,7 +45,9 @@
                 
                 // Get the file and send it to the AI
                 const imageFile = fileInput.files[0];
-                const result = await app.predict(0, [ imageFile ]); 
+                
+                // FIXED LINE: Use "/predict" instead of 0
+                const result = await app.predict("/predict", [ imageFile ]); 
                 
                 // Display the result!
                 resultDiv.innerText = "Analysis Complete: " + result.data[0];
