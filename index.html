@@ -3,45 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlantCare AI - Professional</title>
+    <title>PlantCare AI - Interactive</title>
     <style>
-        /* Modern Color Palette & Fonts */
-        :root { --primary: #2ea043; --primary-hover: #237a32; --bg: #f9fdfa; --text: #1f2328; }
-        body { margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
+        /* Base & Variables */
+        :root { --primary: #2ea043; --primary-hover: #237a32; --bg: #f9fdfa; --text: #1f2328; --gray: #6e7781; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); }
         
-        /* Hero Landing Section */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, #e3f5e1 0%, #ffffff 100%); padding: 20px; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; color: #113d18; }
-        .hero p { font-size: 1.2rem; color: #555; max-width: 600px; margin-bottom: 30px; line-height: 1.6; }
-        
-        /* Buttons */
-        .btn { background: var(--primary); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(46, 160, 67, 0.3); text-decoration: none; display: inline-block; font-weight: bold; }
-        .btn:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(46, 160, 67, 0.4); }
-        
-        /* Main Upload Area */
-        .container { max-width: 800px; margin: 0 auto; padding: 80px 20px; min-height: 100vh; text-align: center; display: flex; flex-direction: column; justify-content: center; }
-        .upload-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #eaeaea; transition: all 0.3s ease; }
-        .upload-card:hover { border-color: var(--primary); box-shadow: 0 15px 50px rgba(0,0,0,0.12); }
-        
-        /* Custom File Input (Drag & Drop look) */
-        .file-upload-wrapper { position: relative; border: 2px dashed #ccc; border-radius: 15px; padding: 40px 20px; cursor: pointer; transition: all 0.3s; margin-bottom: 20px; background: #fafafa; }
-        .file-upload-wrapper:hover { border-color: var(--primary); background: #f0fdf4; }
-        .file-upload-wrapper input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
-        .upload-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
-        .file-name { margin-top: 10px; font-weight: 500; color: var(--primary); }
-        
-        /* Loading Animation */
-        .loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* Smooth Result Fade In */
-        #result { margin-top: 30px; animation: fadeIn 0.6s ease-in; text-align: left; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* Navigation Bar (Sticky Tabs) */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5vw; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .tabs { display: flex; gap: 10px; }
+        .tab-btn { background: transparent; border: none; font-size: 1rem; color: var(--gray); font-weight: 600; padding: 10px 20px; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
+        .tab-btn:hover { background: #f0fdf4; color: var(--primary); }
+        .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(46, 160, 67, 0.3); }
 
-        /* Your Hugging Face AI Card Styles */
+        /* View Containers */
+        .view { display: none; animation: slideIn 0.4s ease-out forwards; opacity: 0; padding: 40px 5vw; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+        .view.active { display: block; opacity: 1; }
+        @keyframes slideIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Home View Styles */
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; margin-top: 40px; }
+        .hero-text h1 { font-size: 3.5rem; margin-bottom: 20px; color: #113d18; line-height: 1.1; }
+        .hero-text p { font-size: 1.2rem; color: var(--gray); margin-bottom: 30px; line-height: 1.6; }
+        .features { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
+        .feature-item { display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: 500; }
+        .feature-icon { background: #e3f5e1; color: var(--primary); width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 1.2rem; }
+
+        /* Diagnose View Styles */
+        .diagnose-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .upload-card { background: white; border-radius: 24px; padding: 50px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #eaeaea; }
+        .file-upload-wrapper { position: relative; border: 2px dashed #cfd3d7; border-radius: 16px; padding: 50px 20px; cursor: pointer; transition: all 0.3s; margin-bottom: 25px; background: #fafafa; }
+        .file-upload-wrapper:hover, .file-upload-wrapper.dragover { border-color: var(--primary); background: #f0fdf4; }
+        .file-upload-wrapper input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
+        .upload-icon { font-size: 3.5rem; margin-bottom: 15px; display: block; }
+        .btn { background: var(--primary); color: white; border: none; padding: 15px 35px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-weight: bold; width: 100%; display: none; }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 160, 67, 0.4); }
+        .loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Guide View Styles */
+        .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .guide-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        .guide-card h3 { color: var(--primary); margin-top: 0; }
+
+        /* AI Result Card Styles (from Hugging Face) */
+        #result { margin-top: 30px; text-align: left; }
         .result-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 20px; text-align: left; }
         .result-header { padding: 20px; color: white; text-align: center; }
-        .status-healthy { background: #2d7a2d; }
+        .status-healthy { background: #2ea043; }
         .status-diseased { background: #d32f2f; }
         .status-uncertain { background: #f57c00; }
         .status-badge { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; margin-bottom: 5px; opacity: 0.9; }
@@ -49,101 +60,173 @@
         .conf-badge span { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
         .result-body { padding: 25px; }
         .section { margin-bottom: 25px; }
-        .section-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; color: #2d7a2d; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        .section-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; color: #2ea043; border-bottom: 2px solid #eee; padding-bottom: 5px; }
         .section-text { color: #444; line-height: 1.6; }
         .remedy-list { padding-left: 20px; margin: 0; }
         .remedy-item { margin-bottom: 8px; color: #444; line-height: 1.5; }
-        .top3-container { margin-top: 10px; }
         .top3-item { display: flex; align-items: center; margin-bottom: 8px; }
         .top3-name { flex: 0 0 40%; font-size: 0.9rem; color: #555; text-align: right; padding-right: 15px; }
         .top3-bar-wrap { flex: 1; background: #eee; height: 12px; border-radius: 6px; overflow: hidden; }
-        .top3-bar { height: 100%; background: #2d7a2d; }
+        .top3-bar { height: 100%; background: #2ea043; }
         .top3-pct { flex: 0 0 15%; font-size: 0.9rem; font-weight: bold; color: #333; text-align: left; padding-left: 10px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .features { align-items: center; }
+        }
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <h1>🌿 PlantCare AI</h1>
-        <p>Upload a photo of your plant's leaf to instantly detect diseases and get actionable, professional treatment advice powered by AI.</p>
-        <a href="#diagnose-section" class="btn">Diagnose a Plant Now ↓</a>
-    </section>
-
-    <section id="diagnose-section" class="container">
-        <div class="upload-card">
-            <h2>Upload Leaf Image</h2>
-            <p style="color: #666; margin-bottom: 25px;">Ensure the leaf is well-lit and clearly visible.</p>
-            
-            <div class="file-upload-wrapper">
-                <span class="upload-icon">📸</span>
-                <div id="upload-text">Drag & drop an image or <strong>click to browse</strong></div>
-                <input type="file" id="imageInput" accept="image/*" />
-                <div id="file-name-display" class="file-name"></div>
-            </div>
-            
-            <button id="analyzeBtn" class="btn" style="width: 100%; padding: 15px; font-size: 1.2rem; display: none;">✨ Analyze Leaf</button>
-            
-            <div id="loading" class="loader"></div>
-            <div id="status-text" style="margin-top: 15px; font-weight: bold; color: var(--primary); display: none;">🤖 AI is analyzing your plant...</div>
-            
-            <div id="result"></div>
+    <nav class="navbar">
+        <div class="logo" onclick="switchTab('home')">🌿 PlantCare</div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('home')" id="tab-home">Home</button>
+            <button class="tab-btn" onclick="switchTab('diagnose')" id="tab-diagnose">Diagnose</button>
+            <button class="tab-btn" onclick="switchTab('guide')" id="tab-guide">Tips</button>
         </div>
-    </section>
+    </nav>
+
+    <main id="view-home" class="view active">
+        <div class="hero-grid">
+            <div class="hero-text">
+                <h1>Identify Plant Diseases Instantly.</h1>
+                <p>Keep your plants thriving. Upload a photo of a sick leaf, and our advanced AI will tell you exactly what's wrong and how to fix it.</p>
+                
+                <button class="btn" style="display: inline-block; width: auto;" onclick="switchTab('diagnose')">Start Diagnosis ➔</button>
+                
+                <div class="features">
+                    <div class="feature-item">
+                        <div class="feature-icon">📸</div> Snap or upload a photo
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🧠</div> AI analyzes the symptoms
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💊</div> Get a precise treatment plan
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style="background: linear-gradient(135deg, #c3ebc6, #f0fdf4); border-radius: 30px; height: 400px; display: flex; justify-content: center; align-items: center; font-size: 5rem;">🪴</div>
+            </div>
+        </div>
+    </main>
+
+    <main id="view-diagnose" class="view">
+        <div class="diagnose-container">
+            <div class="upload-card">
+                <h2 style="font-size: 2rem; margin-top: 0; color: #113d18;">Upload Leaf Image</h2>
+                <p style="color: var(--gray); margin-bottom: 30px;">For best results, ensure the leaf is well-lit and centered.</p>
+                
+                <div class="file-upload-wrapper" id="drop-zone">
+                    <span class="upload-icon">📥</span>
+                    <div id="upload-text" style="font-size: 1.1rem; color: #444;">Drag & drop your image here, or <strong>browse files</strong></div>
+                    <input type="file" id="imageInput" accept="image/*" />
+                    <div id="file-name-display" style="margin-top: 15px; font-weight: 600; color: var(--primary);"></div>
+                </div>
+                
+                <button id="analyzeBtn" class="btn">✨ Analyze Leaf</button>
+                
+                <div id="loading" class="loader"></div>
+                <div id="status-text" style="margin-top: 15px; font-weight: bold; color: var(--primary); display: none;">AI is analyzing your plant...</div>
+                
+                <div id="result"></div>
+            </div>
+        </div>
+    </main>
+
+    <main id="view-guide" class="view">
+        <div style="text-align: center;">
+            <h2 style="font-size: 2.5rem; color: #113d18; margin-bottom: 10px;">Plant Care Tips</h2>
+            <p style="color: var(--gray); font-size: 1.1rem;">Basic rules for keeping your indoor and outdoor plants healthy.</p>
+        </div>
+        
+        <div class="guide-grid">
+            <div class="guide-card">
+                <h3>💧 Watering 101</h3>
+                <p>Overwatering kills more plants than underwatering. Always check the top 2 inches of soil before watering. If it's moist, wait a few days.</p>
+            </div>
+            <div class="guide-card">
+                <h3>☀️ Light Requirements</h3>
+                <p>"Bright indirect light" means placing your plant near a sunny window, but just out of the direct rays of the sun to avoid scorching the leaves.</p>
+            </div>
+            <div class="guide-card">
+                <h3>✂️ Pruning</h3>
+                <p>Don't be afraid to snip off yellowing or dead leaves. This redirects the plant's energy towards pushing out healthy new growth!</p>
+            </div>
+        </div>
+    </main>
 
     <script type="module">
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
+        // --- TAB SWITCHING LOGIC ---
+        window.switchTab = function(tabId) {
+            // Remove active class from all tabs and views
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding view
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('view-' + tabId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        };
+
+        // --- AI DIAGNOSIS LOGIC ---
         const fileInput = document.getElementById("imageInput");
         const fileNameDisplay = document.getElementById("file-name-display");
         const analyzeBtn = document.getElementById("analyzeBtn");
         const uploadText = document.getElementById("upload-text");
+        const dropZone = document.getElementById("drop-zone");
 
-        // Listen for when the user selects a file
+        // Drag and drop visual effects
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', () => dropZone.classList.remove('dragover'));
+
         fileInput.addEventListener("change", () => {
             if (fileInput.files.length > 0) {
-                // Show the file name and reveal the Analyze button
                 fileNameDisplay.innerText = "Selected: " + fileInput.files[0].name;
                 uploadText.style.display = "none";
-                analyzeBtn.style.display = "inline-block"; 
+                analyzeBtn.style.display = "block"; 
             }
         });
 
-        // Listen for the click on the Analyze button
         analyzeBtn.addEventListener("click", async () => {
             const resultDiv = document.getElementById("result");
             const loadingSpinner = document.getElementById("loading");
             const statusText = document.getElementById("status-text");
 
-            // UI Updates for loading state
-            analyzeBtn.style.display = "none"; // Hide button while loading
-            resultDiv.innerHTML = ""; // Clear old results
-            loadingSpinner.style.display = "block"; // Show spinner
-            statusText.style.display = "block"; // Show text
+            analyzeBtn.style.display = "none"; 
+            resultDiv.innerHTML = ""; 
+            loadingSpinner.style.display = "block"; 
+            statusText.style.display = "block"; 
             
             try {
-                // Connect to your AI
+                // Connect to your specific Hugging Face Space
                 const app = await client("dev312/plantcare_major");
                 const imageFile = fileInput.files[0];
                 
-                // Send the image to the AI
                 const result = await app.predict("/predict", [ imageFile ]); 
                 
-                // Hide loading UI
                 loadingSpinner.style.display = "none";
                 statusText.style.display = "none";
                 
-                // Show the beautiful result HTML
                 resultDiv.innerHTML = result.data[0];
                 
-                // Change button text and show it again so they can do another leaf
-                analyzeBtn.style.display = "inline-block";
+                analyzeBtn.style.display = "block";
                 analyzeBtn.innerText = "↻ Analyze Another Leaf";
 
             } catch (error) {
                 loadingSpinner.style.display = "none";
                 statusText.style.display = "none";
-                analyzeBtn.style.display = "inline-block";
-                resultDiv.innerHTML = "<p style='color: #d32f2f; text-align: center; font-weight: bold;'>Error: Could not reach the AI. Please try again.</p>";
+                analyzeBtn.style.display = "block";
+                resultDiv.innerHTML = "<p style='color: #d32f2f; text-align: center; padding: 20px; background: #ffebee; border-radius: 10px;'>Error: Could not reach the AI. Please ensure your backend is awake.</p>";
                 console.error(error);
             }
         });
