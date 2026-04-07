@@ -3,413 +3,794 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlantCare AI - Premium</title>
-    
+    <title>PlantCare AI</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /* Base & Variables */
-        :root { 
-            --primary: #2ea043; 
-            --primary-hover: #237a32; 
-            --bg: #f4f9f5; 
-            --text: #1f2328; 
-            --gray: #6e7781; 
-            --light-green: #e3f5e1; 
-            --card-bg: rgba(255, 255, 255, 0.8);
+        /* ── Variables ─────────────────────────────────────────────── */
+        :root {
+            --green-900: #0a2e0f;
+            --green-800: #113d18;
+            --green-700: #1a5422;
+            --green-500: #2ea043;
+            --green-400: #3fc756;
+            --green-100: #e3f5e1;
+            --green-50:  #f0faf0;
+            --cream:     #faf8f3;
+            --sand:      #f2ede4;
+            --warm-gray: #8a8579;
+            --text:      #1a1a18;
+            --white:     #ffffff;
+            --card-shadow: 0 4px 24px rgba(10,46,15,0.08), 0 1px 4px rgba(10,46,15,0.04);
+            --card-shadow-hover: 0 16px 48px rgba(10,46,15,0.14), 0 4px 12px rgba(10,46,15,0.08);
         }
-        * { box-sizing: border-box; }
-        body { 
-            margin: 0; 
-            font-family: 'Outfit', sans-serif; 
-            background: var(--bg); 
-            background-image: radial-gradient(circle at 100% 0%, #e3f5e1 0%, transparent 40%), 
-                              radial-gradient(circle at 0% 100%, #e3f5e1 0%, transparent 40%);
-            background-attachment: fixed;
-            color: var(--text); 
-            line-height: 1.6; 
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(46, 160, 67, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(46, 160, 67, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(46, 160, 67, 0); }
-        }
-        @keyframes gradientPulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        /* ── Organic background texture ────────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 90% 10%, rgba(46,160,67,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 10% 90%, rgba(46,160,67,0.05) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 60% at 50% 50%, rgba(242,237,228,0.6) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .animate-up { 
-            opacity: 0; 
-            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
+        /* ── Animations ─────────────────────────────────────────────── */
+        @keyframes fadeUp   { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+        @keyframes float    { 0%,100% { transform:translateY(0) rotate(-2deg); } 50% { transform:translateY(-18px) rotate(2deg); } }
+        @keyframes spin     { to { transform:rotate(360deg); } }
+        @keyframes shimmer  { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes pulse    { 0%,100% { transform:scale(1); } 50% { transform:scale(1.04); } }
+        @keyframes drawLine { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+        @keyframes leafSway { 0%,100% { transform:rotate(-3deg) scale(1); } 50% { transform:rotate(3deg) scale(1.03); } }
 
-        /* Navigation Bar - Glassmorphism */
-        .navbar { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 5vw; 
-            background: rgba(255, 255, 255, 0.7); 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.5);
-            position: sticky; top: 0; z-index: 1000; 
-        }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.3s ease; }
-        .logo:hover { transform: scale(1.05); }
-        
-        .tabs { display: flex; gap: 8px; background: rgba(0,0,0,0.03); padding: 5px; border-radius: 50px; }
-        .tab-btn { background: transparent; border: none; font-size: 1rem; color: var(--gray); font-weight: 600; padding: 10px 24px; border-radius: 50px; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .tab-btn:hover { color: var(--primary); }
-        .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .fade-up  { opacity:0; animation: fadeUp  0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+        .d1 { animation-delay:0.05s; } .d2 { animation-delay:0.15s; }
+        .d3 { animation-delay:0.25s; } .d4 { animation-delay:0.35s; }
 
-        /* View Containers */
-        .view { display: none; }
-        .view.active { display: block; }
-
-        /* Generic Section Styling */
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 80px 5vw; }
-        .section-title { text-align: center; font-size: 2.8rem; color: #113d18; margin-bottom: 15px; font-weight: 800; letter-spacing: -0.5px; }
-        .section-subtitle { text-align: center; color: var(--gray); font-size: 1.1rem; margin-bottom: 60px; max-width: 600px; margin-left: auto; margin-right: auto; }
-
-        /* Home: Hero Grid */
-        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; padding-top: 40px; min-height: 75vh; }
-        .hero-text h1 { font-size: 4.2rem; margin-bottom: 20px; color: #113d18; line-height: 1.1; font-weight: 800; letter-spacing: -1.5px; }
-        .hero-text h1 span { color: var(--primary); }
-        .hero-text p { font-size: 1.25rem; color: var(--gray); margin-bottom: 35px; line-height: 1.8; }
-        
-        .btn { 
-            background: var(--primary); color: white; border: none; padding: 18px 40px; 
-            font-size: 1.1rem; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; 
-            font-weight: 600; font-family: 'Outfit', sans-serif;
-            box-shadow: 0 10px 20px rgba(46, 160, 67, 0.2); 
-        }
-        .btn:hover { 
-            background: var(--primary-hover); 
-            transform: translateY(-3px); 
-            box-shadow: 0 15px 25px rgba(46, 160, 67, 0.3); 
-        }
-
-        /* Pure CSS Premium Hero Visual */
-        .hero-visual-container { position: relative; display: flex; justify-content: center; align-items: center; height: 100%; min-height: 400px; }
-        .floating-glass-card {
-            font-size: 6rem;
-            background: rgba(255, 255, 255, 0.6);
+        /* ── Navbar ──────────────────────────────────────────────────── */
+        .navbar {
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 6vw;
+            background: rgba(250,248,243,0.82);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 50px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 25px 50px rgba(46, 160, 67, 0.15);
-            animation: float 5s ease-in-out infinite;
-            z-index: 2;
+            border-bottom: 1px solid rgba(46,160,67,0.1);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; font-weight: 900;
+            color: var(--green-800);
+            display: flex; align-items: center; gap: 10px;
+            cursor: pointer; transition: transform 0.3s;
+            letter-spacing: -0.5px;
+        }
+        .logo:hover { transform: scale(1.04); }
+        .logo-leaf { font-size: 1.4rem; animation: leafSway 4s ease-in-out infinite; display:inline-block; }
+
+        .tabs {
+            display: flex; gap: 6px;
+            background: var(--sand);
+            padding: 5px; border-radius: 50px;
+            border: 1px solid rgba(46,160,67,0.12);
+        }
+        .tab-btn {
+            background: transparent; border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 600;
+            color: var(--warm-gray);
+            padding: 9px 26px; border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+        .tab-btn:hover { color: var(--green-700); }
+        .tab-btn.active {
+            background: var(--white);
+            color: var(--green-800);
+            box-shadow: 0 2px 12px rgba(10,46,15,0.1);
+        }
+
+        /* ── View containers ─────────────────────────────────────────── */
+        .view { display: none; position: relative; z-index: 1; }
+        .view.active { display: block; }
+
+        /* ── Section layout ──────────────────────────────────────────── */
+        .section-container { max-width: 1180px; margin: 0 auto; padding: 80px 6vw; }
+
+        /* ── HERO ────────────────────────────────────────────────────── */
+        .hero-grid {
+            display: grid; grid-template-columns: 1.15fr 0.85fr;
+            gap: 60px; align-items: center;
+            padding-top: 30px; min-height: 76vh;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--green-100);
+            color: var(--green-700);
+            font-size: 0.82rem; font-weight: 600; letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 16px; border-radius: 50px;
+            border: 1px solid rgba(46,160,67,0.2);
+            margin-bottom: 28px;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.4rem; font-weight: 900;
+            color: var(--green-900);
+            line-height: 1.07; letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+        .hero-text h1 em {
+            font-style: italic; color: var(--green-500);
             position: relative;
         }
-        .glow-bg {
-            position: absolute;
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, rgba(46,160,67,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            animation: gradientPulse 4s infinite alternate ease-in-out;
-            z-index: 1;
+        .hero-text h1 em::after {
+            content: '';
+            position: absolute; bottom: -4px; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--green-500), var(--green-400));
+            border-radius: 2px;
         }
 
-        /* Home: How It Works Steps */
-        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
-        .step-card { 
-            background: var(--card-bg); padding: 40px 30px; border-radius: 24px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02); border: 1px solid rgba(255,255,255,0.5);
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
+        .hero-text p {
+            font-size: 1.15rem; color: var(--warm-gray);
+            margin-bottom: 40px; max-width: 480px; line-height: 1.8;
         }
-        .step-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-color: var(--light-green); }
-        .step-icon { 
-            font-size: 3rem; background: linear-gradient(135deg, #e3f5e1, #ffffff); 
-            width: 90px; height: 90px; display: flex; justify-content: center; align-items: center; 
-            border-radius: 24px; margin: 0 auto 25px; color: var(--primary); 
-            box-shadow: 0 8px 16px rgba(46,160,67,0.1); transform: rotate(-5deg); transition: transform 0.3s;
-        }
-        .step-card:hover .step-icon { transform: rotate(5deg) scale(1.1); }
-        .step-card h3 { font-size: 1.4rem; color: #113d18; margin-bottom: 15px; }
-        .step-card p { color: var(--gray); font-size: 1rem; line-height: 1.6; }
 
-        /* Home: FAQ Accordion */
-        .faq-list { max-width: 800px; margin: 0 auto; }
-        .faq-item { 
-            background: white; margin-bottom: 15px; border-radius: 16px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02); overflow: hidden; border: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
-        }
-        .faq-item:hover { border-color: var(--light-green); }
-        .faq-question { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 25px; cursor: pointer; font-size: 1.2rem; font-weight: 600; color: #113d18; 
-        }
-        .faq-icon { 
-            font-size: 1.5rem; color: var(--primary); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-            background: var(--light-green); width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border-radius: 50%;
-        }
-        .faq-answer { 
-            max-height: 0; overflow: hidden; padding: 0 25px; color: var(--gray); 
-            font-size: 1.05rem; line-height: 1.7; transition: all 0.4s ease; opacity: 0;
-        }
-        .faq-item.active .faq-answer { max-height: 200px; padding: 0 25px 25px; opacity: 1; }
-        .faq-item.active .faq-icon { transform: rotate(45deg); background: #113d18; color: white; }
+        .hero-cta-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 
-        /* Diagnose View Styles */
-        .upload-card { 
-            background: white; border-radius: 30px; padding: 60px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.08); border: 1px solid #eaeaea; 
-            max-width: 800px; margin: 0 auto; text-align: center; 
+        .btn-primary {
+            background: linear-gradient(135deg, var(--green-700), var(--green-500));
+            color: var(--white); border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem; font-weight: 600;
+            padding: 16px 36px; border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 8px 24px rgba(46,160,67,0.3), 0 2px 6px rgba(46,160,67,0.2);
+            letter-spacing: 0.2px;
         }
-        .file-upload-wrapper { 
-            position: relative; border: 2px dashed #cfd3d7; border-radius: 20px; 
-            padding: 60px 20px; cursor: pointer; transition: all 0.3s ease; 
-            margin-bottom: 30px; background: #fafafa; 
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px rgba(46,160,67,0.4), 0 4px 10px rgba(46,160,67,0.3);
         }
-        .file-upload-wrapper:hover { 
-            border-color: var(--primary); background: #f4fce8; 
-            transform: scale(1.02);
-        }
-        .file-upload-wrapper input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
-        .upload-icon { font-size: 4rem; margin-bottom: 20px; display: inline-block; transition: transform 0.3s; }
-        .file-upload-wrapper:hover .upload-icon { transform: translateY(-5px); }
-        
-        .loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* AI Result Card Styles */
-        #result { margin-top: 30px; text-align: left; animation: fadeUp 0.5s ease forwards; }
-        .result-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #eee; margin-top: 20px; }
-        .result-header { padding: 25px; color: white; text-align: center; }
-        .status-healthy { background: linear-gradient(135deg, #2ea043, #1e7a30); }
-        .status-diseased { background: linear-gradient(135deg, #d32f2f, #9a0007); }
-        .status-uncertain { background: linear-gradient(135deg, #f57c00, #c56000); }
-        .status-badge { font-weight: 800; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 8px; opacity: 0.9; letter-spacing: 1px; }
-        .disease-name { font-size: 2rem; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
-        .conf-badge span { background: rgba(255,255,255,0.25); padding: 5px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; }
-        
+        .hero-stat {
+            display: flex; align-items: center; gap: 12px;
+        }
+        .hero-stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; font-weight: 900; color: var(--green-800);
+            line-height: 1;
+        }
+        .hero-stat-label { font-size: 0.82rem; color: var(--warm-gray); line-height: 1.3; }
+
+        /* Hero visual */
+        .hero-visual-container {
+            position: relative; display: flex;
+            justify-content: center; align-items: center;
+            height: 100%; min-height: 420px;
+        }
+
+        .hero-blob {
+            position: absolute; width: 380px; height: 380px;
+            background: radial-gradient(circle at 40% 40%, rgba(46,160,67,0.18), rgba(46,160,67,0.03));
+            border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+            animation: leafSway 8s ease-in-out infinite;
+        }
+
+        .floating-glass-card {
+            position: relative; z-index: 2;
+            font-size: 5.5rem;
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: 52px 56px;
+            border-radius: 36px;
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 32px 64px rgba(10,46,15,0.12), 0 8px 24px rgba(10,46,15,0.06);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Floating data chips */
+        .float-chip {
+            position: absolute; z-index: 3;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 10px 16px;
+            box-shadow: var(--card-shadow);
+            font-size: 0.82rem; font-weight: 600;
+            display: flex; align-items: center; gap: 8px;
+            color: var(--green-800);
+            border: 1px solid var(--green-100);
+            white-space: nowrap;
+        }
+        .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-500); }
+        .chip-tl { top: 12%; left: -10%; animation: float 5s ease-in-out infinite 0.5s; }
+        .chip-br { bottom: 14%; right: -8%; animation: float 5s ease-in-out infinite 1s; }
+
+        /* ── How it works ────────────────────────────────────────────── */
+        .section-label {
+            font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--green-500);
+            text-align: center; margin-bottom: 16px;
+        }
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; font-weight: 900;
+            color: var(--green-900); text-align: center;
+            letter-spacing: -1px; margin-bottom: 14px;
+        }
+        .section-sub {
+            text-align: center; color: var(--warm-gray);
+            font-size: 1.05rem; max-width: 540px;
+            margin: 0 auto 60px;
+        }
+
+        .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+
+        .step-card {
+            background: var(--white);
+            border-radius: 24px; padding: 40px 32px;
+            border: 1px solid rgba(46,160,67,0.08);
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            position: relative; overflow: hidden;
+        }
+        .step-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(46,160,67,0.04), transparent);
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .step-card:hover { transform:translateY(-10px); box-shadow: var(--card-shadow-hover); border-color: rgba(46,160,67,0.2); }
+        .step-card:hover::before { opacity:1; }
+
+        .step-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem; font-weight: 900;
+            color: var(--green-100);
+            line-height: 1; margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        .step-card:hover .step-num { color: rgba(46,160,67,0.15); }
+
+        .step-icon-wrap {
+            width: 64px; height: 64px;
+            background: var(--green-50);
+            border-radius: 18px; display: flex;
+            align-items: center; justify-content: center;
+            font-size: 1.8rem; margin-bottom: 24px;
+            border: 1px solid var(--green-100);
+            transition: all 0.3s;
+        }
+        .step-card:hover .step-icon-wrap { background: var(--green-100); transform: rotate(5deg) scale(1.1); }
+
+        .step-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem; font-weight: 700;
+            color: var(--green-900); margin-bottom: 12px;
+        }
+        .step-card p { color: var(--warm-gray); font-size: 0.95rem; line-height: 1.65; }
+
+        /* ── Supported plants strip ──────────────────────────────────── */
+        .plants-strip {
+            background: linear-gradient(135deg, var(--green-800), var(--green-900));
+            padding: 60px 6vw; position: relative; overflow: hidden;
+        }
+        .plants-strip::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .plants-strip-inner { max-width: 1180px; margin: 0 auto; text-align: center; position:relative; }
+        .plants-strip h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; font-weight: 700; color: var(--white);
+            margin-bottom: 30px; opacity: 0.9;
+        }
+        .plant-chips-row {
+            display: flex; flex-wrap: wrap;
+            justify-content: center; gap: 12px;
+        }
+        .plant-chip {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.85);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.9rem; font-weight: 500;
+            transition: all 0.25s;
+            cursor: default;
+        }
+        .plant-chip:hover {
+            background: rgba(255,255,255,0.16);
+            color: var(--white);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ── FAQ ─────────────────────────────────────────────────────── */
+        .faq-list { max-width: 760px; margin: 0 auto; }
+
+        .faq-item {
+            background: var(--white); margin-bottom: 14px;
+            border-radius: 18px; overflow: hidden;
+            border: 1px solid rgba(46,160,67,0.08);
+            box-shadow: 0 2px 8px rgba(10,46,15,0.04);
+            transition: all 0.3s;
+        }
+        .faq-item:hover { border-color: rgba(46,160,67,0.2); box-shadow: var(--card-shadow); }
+
+        .faq-question {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 22px 26px; cursor: pointer;
+            font-size: 1.05rem; font-weight: 600; color: var(--green-900);
+            user-select: none;
+        }
+        .faq-icon {
+            font-size: 1.2rem; color: var(--green-500);
+            background: var(--green-50); width: 32px; height: 32px;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 50%; flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            border: 1px solid var(--green-100);
+        }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            padding: 0 26px; color: var(--warm-gray);
+            font-size: 1rem; line-height: 1.7;
+            transition: all 0.4s ease; opacity: 0;
+        }
+        .faq-item.active .faq-answer { max-height: 200px; padding: 0 26px 22px; opacity: 1; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); background: var(--green-800); color: var(--white); border-color: var(--green-800); }
+
+        /* ── DIAGNOSE VIEW ───────────────────────────────────────────── */
+        .diagnose-header { text-align: center; padding: 60px 6vw 40px; }
+        .diagnose-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem; font-weight: 900; color: var(--green-900);
+            letter-spacing: -1px; margin-bottom: 12px;
+        }
+        .diagnose-header p { color: var(--warm-gray); font-size: 1.1rem; }
+
+        .upload-card {
+            background: var(--white); border-radius: 28px;
+            padding: 56px 52px;
+            box-shadow: 0 20px 60px rgba(10,46,15,0.1), 0 4px 16px rgba(10,46,15,0.06);
+            border: 1px solid rgba(46,160,67,0.1);
+            max-width: 760px; margin: 0 auto;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            border: 2px dashed rgba(46,160,67,0.25);
+            border-radius: 20px; padding: 56px 20px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+            margin-bottom: 28px;
+            background: linear-gradient(135deg, var(--green-50), var(--cream));
+            text-align: center;
+        }
+        .file-upload-wrapper:hover {
+            border-color: var(--green-500);
+            background: var(--green-100);
+            transform: scale(1.015);
+        }
+        .file-upload-wrapper input[type="file"] {
+            position: absolute; width: 100%; height: 100%;
+            top: 0; left: 0; opacity: 0; cursor: pointer;
+        }
+        .upload-icon {
+            font-size: 3.5rem; display: inline-block;
+            margin-bottom: 16px;
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .file-upload-wrapper:hover .upload-icon { transform: translateY(-8px) scale(1.1); }
+
+        #upload-text {
+            font-size: 1.1rem; color: #666;
+        }
+        #upload-text strong { color: var(--green-600, var(--green-500)); }
+        #file-name-display {
+            margin-top: 14px; font-weight: 600;
+            color: var(--green-700); font-size: 1rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--green-700), var(--green-500));
+            color: var(--white); border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem; font-weight: 600;
+            padding: 16px 40px; border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 8px 24px rgba(46,160,67,0.25);
+            display: none; width: 100%; margin-top: 4px;
+            letter-spacing: 0.2px;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px rgba(46,160,67,0.35);
+        }
+
+        .loader {
+            display: none; margin: 24px auto;
+            border: 3px solid rgba(46,160,67,0.15);
+            border-top: 3px solid var(--green-500);
+            border-radius: 50%; width: 44px; height: 44px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        #status-text {
+            display: none; text-align: center;
+            font-weight: 600; color: var(--green-700);
+            font-size: 1rem; margin-top: 16px;
+            background: var(--green-50);
+            padding: 12px 24px; border-radius: 50px;
+            border: 1px solid var(--green-100);
+            max-width: 320px; margin-left: auto; margin-right: auto;
+        }
+
+        /* ── AI Result card (output injected HTML) ───────────────────── */
+        #result { margin-top: 32px; animation: fadeIn 0.5s ease; }
+
+        .result-card {
+            background: var(--white); border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(10,46,15,0.1);
+            border: 1px solid rgba(46,160,67,0.1);
+            margin-top: 20px;
+        }
+        .result-header { padding: 28px 30px; color: var(--white); }
+        .status-healthy  { background: linear-gradient(135deg, #1a5422, #2ea043); }
+        .status-diseased { background: linear-gradient(135deg, #7a1a1a, #c0392b); }
+        .status-uncertain{ background: linear-gradient(135deg, #7a5a1a, #d4820a); }
+
+        .status-badge {
+            font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px;
+            opacity: 0.85; margin-bottom: 8px;
+        }
+        .disease-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; font-weight: 900; margin-bottom: 8px; line-height: 1.2;
+        }
+        .conf-badge span {
+            background: rgba(255,255,255,0.2); padding: 4px 14px;
+            border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+        }
+        .conf-high   { color: #b7f0a8; }
+        .conf-medium { color: #ffe9a0; }
+        .conf-low    { color: #ffcba8; }
+
         .result-body { padding: 30px; }
-        .section { margin-bottom: 30px; }
-        .section-title { font-weight: 800; font-size: 1.3rem; margin-bottom: 15px; color: #113d18; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .remedy-list { padding-left: 20px; margin: 0; }
-        .remedy-item { margin-bottom: 12px; color: #444; line-height: 1.6; }
-        
-        .top3-item { display: flex; align-items: center; margin-bottom: 12px; }
-        .top3-name { flex: 0 0 40%; font-size: 0.95rem; text-align: right; padding-right: 15px; font-weight: 600; color: #555; }
-        .top3-bar-wrap { flex: 1; background: #f0f0f0; height: 14px; border-radius: 10px; overflow: hidden; }
-        .top3-bar { height: 100%; background: var(--primary); border-radius: 10px; }
-        .top3-pct { flex: 0 0 15%; font-size: 0.95rem; font-weight: 800; padding-left: 15px; color: #113d18; }
+        .section { margin-bottom: 28px; }
+        .section:last-child { margin-bottom: 0; }
 
-        /* Footer */
-        footer { text-align: center; padding: 40px; color: var(--gray); border-top: 1px solid rgba(0,0,0,0.05); margin-top: 50px; background: transparent; }
+        .section-title {
+            font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px;
+            color: var(--green-700); margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--green-100);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .section-text { font-size: 0.95rem; color: #444; line-height: 1.7; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-grid { grid-template-columns: 1fr; text-align: center; min-height: auto; }
-            .hero-text h1 { font-size: 3rem; }
+        .remedy-list { list-style: none; padding: 0; }
+        .remedy-item {
+            font-size: 0.92rem; color: #444; line-height: 1.6;
+            padding: 10px 0 10px 20px; position: relative;
+            border-bottom: 1px solid rgba(46,160,67,0.06);
+        }
+        .remedy-item:last-child { border-bottom: none; }
+        .remedy-item::before {
+            content: '→'; position: absolute; left: 0;
+            color: var(--green-500); font-weight: 700;
+        }
+
+        .top3-item { display: flex; align-items: center; margin-bottom: 10px; gap: 12px; }
+        .top3-name { flex: 0 0 42%; font-size: 0.88rem; color: #555; font-weight: 500; text-align: right; padding-right: 4px; }
+        .top3-bar-wrap { flex: 1; background: var(--green-50); height: 10px; border-radius: 8px; overflow: hidden; border: 1px solid var(--green-100); }
+        .top3-bar { height: 100%; background: linear-gradient(90deg, var(--green-500), var(--green-400)); border-radius: 8px; }
+        .top3-pct { flex: 0 0 13%; font-size: 0.9rem; font-weight: 700; color: var(--green-800); }
+
+        /* ── Footer ──────────────────────────────────────────────────── */
+        footer {
+            text-align: center; padding: 48px 6vw;
+            border-top: 1px solid rgba(46,160,67,0.1);
+            position: relative; z-index: 1;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; font-weight: 900;
+            color: var(--green-800); margin-bottom: 10px;
+        }
+        footer p { color: var(--warm-gray); font-size: 0.9rem; }
+
+        /* ── Responsive ──────────────────────────────────────────────── */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; min-height: auto; text-align: center; }
+            .hero-text p { max-width: 100%; }
+            .hero-cta-row { justify-content: center; }
+            .hero-visual-container { min-height: 300px; }
+            .chip-tl, .chip-br { display: none; }
             .steps-grid { grid-template-columns: 1fr; }
-            .upload-card { padding: 30px 20px; }
+            .section-heading { font-size: 2.2rem; }
+            .hero-text h1 { font-size: 3.2rem; }
+        }
+        @media (max-width: 600px) {
+            .hero-text h1 { font-size: 2.6rem; }
+            .upload-card { padding: 28px 20px; }
             .top3-name { flex: 0 0 35%; font-size: 0.8rem; }
+            .navbar { padding: 14px 4vw; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar animate-up">
-        <div class="logo" onclick="switchTab('home')">🌿 PlantCare</div>
+    <!-- ── Navbar ─────────────────────────────────────────────────── -->
+    <nav class="navbar fade-up">
+        <div class="logo" onclick="switchTab('home')">
+            <span class="logo-leaf">🌿</span> PlantCare
+        </div>
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('home')" id="tab-home">Home</button>
-            <button class="tab-btn" onclick="switchTab('diagnose')" id="tab-diagnose">Diagnose</button>
+            <button class="tab-btn active" onclick="switchTab('home')"     id="tab-home">Home</button>
+            <button class="tab-btn"        onclick="switchTab('diagnose')" id="tab-diagnose">Diagnose</button>
         </div>
     </nav>
 
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!--  HOME VIEW                                                      -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
     <main id="view-home" class="view active">
-        
+
+        <!-- Hero -->
         <section class="section-container">
             <div class="hero-grid">
-                <div class="hero-text animate-up delay-1">
-                    <h1>Identify Plant <br><span>Diseases Instantly.</span></h1>
-                    <p>Keep your indoor and outdoor plants thriving. Upload a photo of a sick leaf, and our advanced AI will tell you exactly what's wrong and how to fix it.</p>
-                    <button class="btn" onclick="switchTab('diagnose')">Diagnose Your Plant ➔</button>
-                </div>
-                
-                <div class="hero-visual-container animate-up delay-2">
-                    <div class="glow-bg"></div>
-                    <div class="floating-glass-card">🪴</div>
+                <div class="hero-text">
+                    <div class="hero-eyebrow fade-up d1">
+                        <span>✦</span> AI-Powered Plant Health
+                    </div>
+                    <h1 class="fade-up d2">
+                        Identify Plant<br><em>Diseases</em><br>Instantly.
+                    </h1>
+                    <p class="fade-up d3">
+                        Upload a photo of a sick leaf and our advanced AI tells you exactly
+                        what's wrong — and how to fix it — in seconds.
+                    </p>
+                    <div class="hero-cta-row fade-up d4">
+                        <button class="btn-primary" onclick="switchTab('diagnose')">
+                            Diagnose Your Plant &nbsp;→
+                        </button>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">38</div>
+                            <div class="hero-stat-label">disease<br>classes</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">90%+</div>
+                            <div class="hero-stat-label">accuracy<br>rate</div>
+                        </div>
+                    </div>
                 </div>
 
+                <div class="hero-visual-container fade-up d3">
+                    <div class="hero-blob"></div>
+                    <div class="floating-glass-card">🪴</div>
+                    <div class="float-chip chip-tl">
+                        <span class="chip-dot"></span> Disease detected
+                    </div>
+                    <div class="float-chip chip-br">
+                        <span class="chip-dot"></span> Treatment ready
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="section-container">
-            <h2 class="section-title animate-up delay-3">How it works</h2>
-            <p class="section-subtitle animate-up delay-3">Get professional botanical advice in seconds, right from your device.</p>
-            
+        <!-- How it works -->
+        <section class="section-container" style="padding-top:20px;">
+            <div class="section-label fade-up d1">The Process</div>
+            <h2 class="section-heading fade-up d2">How it works</h2>
+            <p class="section-sub fade-up d2">Professional botanical diagnosis in three simple steps.</p>
+
             <div class="steps-grid">
-                <div class="step-card animate-up delay-1">
-                    <div class="step-icon">📸</div>
-                    <h3>1. Take a picture</h3>
+                <div class="step-card fade-up d1">
+                    <div class="step-num">01</div>
+                    <div class="step-icon-wrap">📸</div>
+                    <h3>Take a picture</h3>
                     <p>Snap a clear photo of your plant's affected leaves or upload one from your gallery.</p>
                 </div>
-                <div class="step-card animate-up delay-2">
-                    <div class="step-icon">🧠</div>
-                    <h3>2. Get a diagnosis</h3>
-                    <p>Our advanced AI model instantly analyzes the image against thousands of plant diseases.</p>
+                <div class="step-card fade-up d2">
+                    <div class="step-num">02</div>
+                    <div class="step-icon-wrap">🧠</div>
+                    <h3>Get a diagnosis</h3>
+                    <p>Our advanced EfficientNet-B4 model instantly analyses the image against 38 plant diseases.</p>
                 </div>
-                <div class="step-card animate-up delay-3">
-                    <div class="step-icon">💊</div>
-                    <h3>3. Treatment plan</h3>
-                    <p>Receive detailed, actionable advice on how to cure the disease and save your plant.</p>
+                <div class="step-card fade-up d3">
+                    <div class="step-num">03</div>
+                    <div class="step-icon-wrap">💊</div>
+                    <h3>Treatment plan</h3>
+                    <p>Receive detailed, actionable treatment advice to cure the disease and protect your crops.</p>
                 </div>
             </div>
         </section>
 
+        <!-- Supported plants -->
+        <div class="plants-strip">
+            <div class="plants-strip-inner">
+                <h3>14 supported plants · 38 disease categories</h3>
+                <div class="plant-chips-row">
+                    <span class="plant-chip">🍎 Apple</span>
+                    <span class="plant-chip">🫐 Blueberry</span>
+                    <span class="plant-chip">🍒 Cherry</span>
+                    <span class="plant-chip">🌽 Corn</span>
+                    <span class="plant-chip">🍇 Grape</span>
+                    <span class="plant-chip">🍊 Orange</span>
+                    <span class="plant-chip">🍑 Peach</span>
+                    <span class="plant-chip">🫑 Bell Pepper</span>
+                    <span class="plant-chip">🥔 Potato</span>
+                    <span class="plant-chip">🍓 Strawberry</span>
+                    <span class="plant-chip">🫘 Soybean</span>
+                    <span class="plant-chip">🎃 Squash</span>
+                    <span class="plant-chip">🍅 Tomato</span>
+                    <span class="plant-chip">🌱 Raspberry</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
         <section class="section-container">
-            <h2 class="section-title animate-up delay-1">Frequently Asked Questions</h2>
-            <p class="section-subtitle animate-up delay-1">Everything you need to know about the PlantCare app.</p>
-            
-            <div class="faq-list animate-up delay-2">
+            <div class="section-label fade-up d1">Questions</div>
+            <h2 class="section-heading fade-up d2">Frequently Asked</h2>
+            <p class="section-sub fade-up d2">Everything you need to know about PlantCare AI.</p>
+
+            <div class="faq-list fade-up d3">
                 <div class="faq-item">
                     <div class="faq-question">How accurate is the AI diagnosis? <span class="faq-icon">+</span></div>
-                    <div class="faq-answer">Our AI is trained on hundreds of thousands of healthy and diseased plant images. It currently identifies over 50 of the most common plant diseases with an accuracy rate of over 90% when provided with a clear, well-lit photograph.</div>
+                    <div class="faq-answer">Our AI is trained on hundreds of thousands of healthy and diseased plant images. It currently identifies over 38 of the most common plant diseases with an accuracy rate of over 90% when provided with a clear, well-lit photograph.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">What kind of photo works best? <span class="faq-icon">+</span></div>
-                    <div class="faq-answer">For the best results, ensure the affected leaf or area is well-lit (natural daylight is best) and centered in the frame. Avoid blurry images or photos where the plant is too far away.</div>
+                    <div class="faq-answer">For the best results, ensure the affected leaf or area is well-lit (natural daylight is best) and centered in the frame. Avoid blurry images or photos where the plant is too far away. Fill the frame with the leaf.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">Can it identify indoor and outdoor plants? <span class="faq-icon">+</span></div>
-                    <div class="faq-answer">Yes! The model is trained to recognize diseases across a wide variety of flora, from common indoor houseplants like Pothos and Ficus to outdoor garden crops like Tomatoes and Apple trees.</div>
+                    <div class="faq-answer">Yes! The model is trained to recognise diseases across a wide variety of flora, from outdoor garden crops like Tomatoes and Apple trees to common agricultural plants like Corn, Potato, and Soybean.</div>
                 </div>
             </div>
         </section>
 
     </main>
 
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!--  DIAGNOSE VIEW                                                  -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
     <main id="view-diagnose" class="view">
-        <div class="section-container">
-            <div class="upload-card animate-up delay-1">
-                <h2 style="font-size: 2.5rem; margin-top: 0; color: #113d18; font-weight: 800;">Diagnose Your Plant</h2>
-                <p style="color: var(--gray); margin-bottom: 40px; font-size: 1.1rem;">Upload a clear picture of the sick leaf.</p>
-                
+
+        <div class="diagnose-header fade-up d1">
+            <h2>Diagnose Your Plant</h2>
+            <p>Upload a clear, well-lit photo of the affected leaf for the most accurate result.</p>
+        </div>
+
+        <div class="section-container" style="padding-top:0;">
+            <div class="upload-card fade-up d2">
+
                 <div class="file-upload-wrapper" id="drop-zone">
                     <span class="upload-icon">📥</span>
-                    <div id="upload-text" style="font-size: 1.2rem; color: #444;">Drag & drop your image here, or <strong style="color: var(--primary);">browse files</strong></div>
+                    <div id="upload-text" style="font-size:1.1rem;color:#555;">
+                        Drag &amp; drop your image here, or
+                        <strong style="color:var(--green-600,var(--green-500));">browse files</strong>
+                    </div>
                     <input type="file" id="imageInput" accept="image/*" />
-                    <div id="file-name-display" style="margin-top: 15px; font-weight: 600; color: var(--primary); font-size: 1.1rem;"></div>
+                    <div id="file-name-display"></div>
                 </div>
-                
-                <button id="analyzeBtn" class="btn" style="width: 100%; display: none; font-size: 1.2rem;">✨ Analyze Leaf</button>
-                
+
+                <button id="analyzeBtn" class="btn">✨ &nbsp;Analyse Leaf</button>
+
                 <div id="loading" class="loader"></div>
-                <div id="status-text" style="margin-top: 20px; font-weight: 600; color: var(--primary); display: none; font-size: 1.1rem;">AI is analyzing your plant...</div>
-                
+                <div id="status-text">🤖 AI is analysing your plant…</div>
+
                 <div id="result"></div>
             </div>
         </div>
+
     </main>
 
-    <footer class="animate-up delay-3">
-        <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">🌿 PlantCare</div>
-        <p>© 2026 PlantCare AI. Built for nature lovers.</p>
+    <!-- ── Footer ─────────────────────────────────────────────────── -->
+    <footer class="fade-up d3">
+        <div class="footer-logo">🌿 PlantCare</div>
+        <p>© 2026 PlantCare AI · Built for nature lovers · Always consult a qualified agronomist for critical crop decisions.</p>
     </footer>
 
+    <!-- ── Scripts (unchanged logic) ─────────────────────────────── -->
     <script type="module">
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
-        // --- TAB SWITCHING LOGIC ---
+        // Tab switching
         window.switchTab = function(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.view').forEach(view => {
                 view.classList.remove('active');
-                // Reset animations on switch
-                const animatedElements = view.querySelectorAll('.animate-up');
-                animatedElements.forEach(el => {
+                view.querySelectorAll('.fade-up').forEach(el => {
                     el.style.animation = 'none';
-                    el.offsetHeight; /* trigger reflow */
-                    el.style.animation = null; 
+                    el.offsetHeight;
+                    el.style.animation = null;
                 });
             });
-            
             document.getElementById('tab-' + tabId).classList.add('active');
             document.getElementById('view-' + tabId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // --- FAQ INTERACTIVITY LOGIC ---
+        // FAQ accordion
         document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', event => {
-                const parent = item.parentElement;
-                parent.classList.toggle('active');
-            });
+            item.addEventListener('click', () => item.parentElement.classList.toggle('active'));
         });
 
-        // --- AI DIAGNOSIS LOGIC ---
-        const fileInput = document.getElementById("imageInput");
-        const fileNameDisplay = document.getElementById("file-name-display");
-        const analyzeBtn = document.getElementById("analyzeBtn");
-        const uploadText = document.getElementById("upload-text");
+        // File input
+        const fileInput      = document.getElementById("imageInput");
+        const fileNameDisplay= document.getElementById("file-name-display");
+        const analyzeBtn     = document.getElementById("analyzeBtn");
+        const uploadText     = document.getElementById("upload-text");
 
         fileInput.addEventListener("change", () => {
             if (fileInput.files.length > 0) {
                 fileNameDisplay.innerText = "Selected: " + fileInput.files[0].name;
-                uploadText.style.display = "none";
-                analyzeBtn.style.display = "block"; 
-                // Add pulse animation to button to guide user
-                analyzeBtn.style.animation = "pulseGlow 2s infinite";
+                uploadText.style.display  = "none";
+                analyzeBtn.style.display  = "block";
+                analyzeBtn.style.animation = "pulse 2s infinite";
             }
         });
 
+        // Analyze
         analyzeBtn.addEventListener("click", async () => {
-            const resultDiv = document.getElementById("result");
-            const loadingSpinner = document.getElementById("loading");
-            const statusText = document.getElementById("status-text");
+            const resultDiv     = document.getElementById("result");
+            const loadingSpinner= document.getElementById("loading");
+            const statusText    = document.getElementById("status-text");
 
-            analyzeBtn.style.display = "none"; 
-            analyzeBtn.style.animation = "none";
-            resultDiv.innerHTML = ""; 
-            loadingSpinner.style.display = "block"; 
-            statusText.style.display = "block"; 
-            
+            analyzeBtn.style.display    = "none";
+            analyzeBtn.style.animation  = "none";
+            resultDiv.innerHTML         = "";
+            loadingSpinner.style.display= "block";
+            statusText.style.display    = "block";
+
             try {
-                // Connect to your Hugging Face Space
-                const app = await client("dev312/plantcare_major");
-                const imageFile = fileInput.files[0];
-                
-                const result = await app.predict("/predict", [ imageFile ]); 
-                
+                const app    = await client("dev312/plantcare_major");
+                const result = await app.predict("/predict", [ fileInput.files[0] ]);
+
                 loadingSpinner.style.display = "none";
-                statusText.style.display = "none";
-                
-                resultDiv.innerHTML = result.data[0];
-                
+                statusText.style.display     = "none";
+                resultDiv.innerHTML          = result.data[0];
+
                 analyzeBtn.style.display = "block";
-                analyzeBtn.innerText = "↻ Analyze Another Leaf";
+                analyzeBtn.innerText     = "↻  Analyse Another Leaf";
 
             } catch (error) {
                 loadingSpinner.style.display = "none";
-                statusText.style.display = "none";
-                analyzeBtn.style.display = "block";
-                resultDiv.innerHTML = "<p style='color: #d32f2f; text-align: center; padding: 25px; background: #ffebee; border-radius: 15px; font-weight: 600; border: 1px solid #ffcdd2;'>Connection Error: Could not reach the AI. Please ensure your backend is active.</p>";
+                statusText.style.display     = "none";
+                analyzeBtn.style.display     = "block";
+                resultDiv.innerHTML = "<p style='color:#c0392b;text-align:center;padding:24px;background:#fdf0f0;border-radius:14px;font-weight:600;border:1px solid #f5c6c6;'>Connection Error: Could not reach the AI. Please ensure your Space is active.</p>";
                 console.error(error);
             }
         });
