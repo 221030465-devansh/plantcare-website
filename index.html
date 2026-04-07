@@ -202,39 +202,101 @@
 
         @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .steps-grid { grid-template-columns: 1fr; } }
         @media (max-width: 600px) { .top3-item { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 20px; } .top3-name { text-align: left; width: 100%; } .top3-bar-wrap { width: 100%; } .top3-pct { text-align: right; width: 100%; margin-top: -24px; } }
-        /* 🖨️ PRINT MEDIA QUERY: Makes the PDF look like a real document */
+       /* 🖨️ ADVANCED PRINT MEDIA QUERY: Forces a beautiful 1-page PDF Report */
         @media print {
-            /* 1. Hide EVERYTHING on the page by default */
+            /* 1. Force the browser to render our beautiful background gradients */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* 2. Define the page size and REMOVE the ugly browser URLs and Dates */
+            @page {
+                size: A4 portrait;
+                margin: 0mm; /* Removes browser headers and footers completely */
+            }
+
+            /* 3. Hide the entire website UI */
             body * {
                 visibility: hidden;
             }
 
-            /* 2. Make ONLY the printable report and its contents visible */
+            /* 4. Reset body styling for paper */
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* 5. Un-hide ONLY our diagnostic report */
             #printable-report, #printable-report * {
                 visibility: visible;
             }
 
-            /* 3. Move the report to the absolute top-left of the PDF page */
+            /* 6. Position the report perfectly at the top-left of the A4 page */
             #printable-report {
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                background-color: white !important;
+                width: 100vw !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 10mm 15mm !important; /* Professional document margins */
+                box-sizing: border-box;
             }
 
-            /* 4. Force hide specific UI buttons that might try to sneak in */
-            #pdf-action, #downloadPdfBtn, .tab-btn, #analyzeBtn {
+            /* 7. Hide the upload buttons and action buttons from the PDF */
+            #drop-zone, #analyzeBtn, #pdf-action, .diagnose-header, #loading, #status-text {
                 display: none !important;
             }
-            
-            /* Optional: Remove box shadows and borders for a cleaner paper look */
-            .gradio-container {
-                border: none !important;
+
+            /* 8. Scale down the elements so they fit perfectly on ONE page */
+            .weather-card {
+                margin: 0 0 15px 0 !important;
+                padding: 12px 20px !important;
+                border-radius: 12px !important;
                 box-shadow: none !important;
+                border: 1px solid #80deea !important;
             }
+            .weather-title { font-size: 0.8rem !important; margin-bottom: 8px !important; }
+            .w-stat { font-size: 0.8rem !important; padding: 4px 10px !important; }
+            .weather-alert-text { font-size: 0.9rem !important; }
+
+            .result-card {
+                margin: 0 !important;
+                border-radius: 12px !important;
+                box-shadow: none !important;
+                border: 1px solid #cfcfcf !important;
+            }
+            .result-header { padding: 20px !important; }
+            .disease-name { font-size: 2rem !important; margin-bottom: 8px !important; }
+            .status-badge { font-size: 0.7rem !important; padding: 6px 14px !important; margin-bottom: 10px !important; }
+            
+            .result-body { padding: 20px !important; }
+            
+            /* 9. Prevent boxes from breaking in half across pages */
+            .section {
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+                border-radius: 10px !important;
+                page-break-inside: avoid !important; /* Magic rule to keep boxes intact */
+            }
+            .section-title { font-size: 0.8rem !important; margin-bottom: 10px !important; }
+            .section-text { font-size: 0.95rem !important; line-height: 1.5 !important; }
+            
+            .remedy-item { 
+                font-size: 0.95rem !important; 
+                padding: 10px 10px 10px 35px !important; 
+                line-height: 1.4 !important;
+            }
+            .remedy-item::before { 
+                top: 10px !important; left: 10px !important; 
+                width: 18px !important; height: 18px !important; font-size: 0.6rem !important;
+            }
+            
+            .top3-item { margin-bottom: 10px !important; }
+            .top3-name { font-size: 0.85rem !important; }
+            .top3-pct { font-size: 0.9rem !important; }
         }
     </style>
 </head>
