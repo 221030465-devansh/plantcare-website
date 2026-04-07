@@ -480,6 +480,7 @@
         });
 
         // 🌟 PDF DOWNLOAD LOGIC
+        // 🌟 BULLETPROOF PDF DOWNLOAD LOGIC
         document.getElementById("downloadPdfBtn").addEventListener("click", () => {
             const btn = document.getElementById("downloadPdfBtn");
             const originalText = btn.innerHTML;
@@ -488,19 +489,44 @@
             // Get the element we want to convert to PDF
             const element = document.getElementById("printable-report");
             
+            // 🛠 FIX 1: Give it a solid background so it doesn't render transparently
+            element.style.backgroundColor = "#faf8f3"; // Matches your app's cream background
+            element.style.padding = "30px"; // Add padding so text doesn't touch the edges
+            
+            // 🛠 FIX 2: Save the user's scroll position, then snap to the top
+            // This prevents the legendary "blank page" html2canvas bug
+            const currentScroll = window.scrollY;
+            window.scrollTo(0, 0);
+            
             // PDF configuration options
             const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5], // Top, Left, Bottom, Right margins
+                margin:       0.3, 
                 filename:     'PlantCare_Diagnostic_Report.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, windowWidth: 800 },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    scrollY: 0, // Force engine to render from top
+                    windowWidth: document.documentElement.offsetWidth // Prevent clipping
+                },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
             // Generate and save
             html2pdf().set(opt).from(element).save().then(() => {
                 // Change button back after downloading
                 btn.innerHTML = originalText;
+                
+                // Revert styles to normal
+                element.style.backgroundColor = "transparent";
+                element.style.padding = "20px 0 0 0";
+                
+                // Scroll the user back down to where they were!
+                window.scrollTo(0, currentScroll);
+            }).catch(err => {
+                console.error("PDF Generation Error: ", err);
+                btn.innerHTML = "❌ Error generating PDF";
+                setTimeout(() => { btn.innerHTML = originalText; window.scrollTo(0, currentScroll); }, 3000);
             });
         });
     </script>
