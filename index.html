@@ -56,480 +56,230 @@
         @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
         @keyframes float    { 0%,100% { transform:translateY(0) rotate(-2deg); } 50% { transform:translateY(-18px) rotate(2deg); } }
         @keyframes spin     { to { transform:rotate(360deg); } }
-        @keyframes shimmer  { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         @keyframes pulse    { 0%,100% { transform:scale(1); } 50% { transform:scale(1.04); } }
-        @keyframes drawLine { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
         @keyframes leafSway { 0%,100% { transform:rotate(-3deg) scale(1); } 50% { transform:rotate(3deg) scale(1.03); } }
 
-        .fade-up  { opacity:0; animation: fadeUp  0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
-        .d1 { animation-delay:0.05s; } .d2 { animation-delay:0.15s; }
-        .d3 { animation-delay:0.25s; } .d4 { animation-delay:0.35s; }
+        .fade-up  { opacity:0; animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+        .d1 { animation-delay:0.05s; } 
+        .d2 { animation-delay:0.15s; }
+        .d3 { animation-delay:0.25s; } 
+        .d4 { animation-delay:0.35s; }
 
         /* ── Navbar ──────────────────────────────────────────────────── */
         .navbar {
             position: sticky; top: 0; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 6vw;
-            background: rgba(250,248,243,0.82);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            padding: 16px 6vw; background: rgba(250,248,243,0.82);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(46,160,67,0.1);
         }
-
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem; font-weight: 900;
-            color: var(--green-800);
-            display: flex; align-items: center; gap: 10px;
-            cursor: pointer; transition: transform 0.3s;
-            letter-spacing: -0.5px;
+            font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900;
+            color: var(--green-800); display: flex; align-items: center; gap: 10px;
+            cursor: pointer; transition: transform 0.3s; letter-spacing: -0.5px;
         }
         .logo:hover { transform: scale(1.04); }
         .logo-leaf { font-size: 1.4rem; animation: leafSway 4s ease-in-out infinite; display:inline-block; }
 
         .tabs {
-            display: flex; gap: 6px;
-            background: var(--sand);
-            padding: 5px; border-radius: 50px;
-            border: 1px solid rgba(46,160,67,0.12);
+            display: flex; gap: 6px; background: var(--sand);
+            padding: 5px; border-radius: 50px; border: 1px solid rgba(46,160,67,0.12);
         }
         .tab-btn {
-            background: transparent; border: none;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem; font-weight: 600;
-            color: var(--warm-gray);
-            padding: 9px 26px; border-radius: 50px;
-            cursor: pointer;
+            background: transparent; border: none; font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 600; color: var(--warm-gray);
+            padding: 9px 26px; border-radius: 50px; cursor: pointer;
             transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
         }
         .tab-btn:hover { color: var(--green-700); }
         .tab-btn.active {
-            background: var(--white);
-            color: var(--green-800);
+            background: var(--white); color: var(--green-800);
             box-shadow: 0 2px 12px rgba(10,46,15,0.1);
         }
 
         /* ── View containers ─────────────────────────────────────────── */
         .view { display: none; position: relative; z-index: 1; }
         .view.active { display: block; }
-
-        /* ── Section layout ──────────────────────────────────────────── */
         .section-container { max-width: 1180px; margin: 0 auto; padding: 80px 6vw; }
 
         /* ── HERO ────────────────────────────────────────────────────── */
         .hero-grid {
-            display: grid; grid-template-columns: 1.15fr 0.85fr;
-            gap: 60px; align-items: center;
-            padding-top: 30px; min-height: 76vh;
+            display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 60px;
+            align-items: center; padding-top: 30px; min-height: 76vh;
         }
-
         .hero-eyebrow {
             display: inline-flex; align-items: center; gap: 8px;
-            background: var(--green-100);
-            color: var(--green-700);
+            background: var(--green-100); color: var(--green-700);
             font-size: 0.82rem; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase;
-            padding: 6px 16px; border-radius: 50px;
-            border: 1px solid rgba(46,160,67,0.2);
-            margin-bottom: 28px;
+            text-transform: uppercase; padding: 6px 16px; border-radius: 50px;
+            border: 1px solid rgba(46,160,67,0.2); margin-bottom: 28px;
         }
-
         .hero-text h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 4.4rem; font-weight: 900;
-            color: var(--green-900);
-            line-height: 1.07; letter-spacing: -2px;
-            margin-bottom: 24px;
+            font-family: 'Playfair Display', serif; font-size: 4.4rem; font-weight: 900;
+            color: var(--green-900); line-height: 1.07; letter-spacing: -2px; margin-bottom: 24px;
         }
-        .hero-text h1 em {
-            font-style: italic; color: var(--green-500);
-            position: relative;
-        }
+        .hero-text h1 em { font-style: italic; color: var(--green-500); position: relative; }
         .hero-text h1 em::after {
-            content: '';
-            position: absolute; bottom: -4px; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--green-500), var(--green-400));
-            border-radius: 2px;
+            content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--green-500), var(--green-400)); border-radius: 2px;
         }
-
         .hero-text p {
             font-size: 1.15rem; color: var(--warm-gray);
             margin-bottom: 40px; max-width: 480px; line-height: 1.8;
         }
-
         .hero-cta-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-
+        
         .btn-primary {
             background: linear-gradient(135deg, var(--green-700), var(--green-500));
-            color: var(--white); border: none;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1rem; font-weight: 600;
-            padding: 16px 36px; border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            color: var(--white); border: none; font-family: 'DM Sans', sans-serif;
+            font-size: 1rem; font-weight: 600; padding: 16px 36px; border-radius: 50px;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
             box-shadow: 0 8px 24px rgba(46,160,67,0.3), 0 2px 6px rgba(46,160,67,0.2);
             letter-spacing: 0.2px;
         }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 36px rgba(46,160,67,0.4), 0 4px 10px rgba(46,160,67,0.3);
-        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(46,160,67,0.4), 0 4px 10px rgba(46,160,67,0.3); }
 
-        .hero-stat {
-            display: flex; align-items: center; gap: 12px;
-        }
-        .hero-stat-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem; font-weight: 900; color: var(--green-800);
-            line-height: 1;
-        }
+        .hero-stat { display: flex; align-items: center; gap: 12px; }
+        .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--green-800); line-height: 1; }
         .hero-stat-label { font-size: 0.82rem; color: var(--warm-gray); line-height: 1.3; }
 
         /* Hero visual */
-        .hero-visual-container {
-            position: relative; display: flex;
-            justify-content: center; align-items: center;
-            height: 100%; min-height: 420px;
-        }
-
+        .hero-visual-container { position: relative; display: flex; justify-content: center; align-items: center; height: 100%; min-height: 420px; }
         .hero-blob {
             position: absolute; width: 380px; height: 380px;
             background: radial-gradient(circle at 40% 40%, rgba(46,160,67,0.18), rgba(46,160,67,0.03));
             border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
             animation: leafSway 8s ease-in-out infinite;
         }
-
         .floating-glass-card {
-            position: relative; z-index: 2;
-            font-size: 5.5rem;
-            background: rgba(255,255,255,0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            padding: 52px 56px;
-            border-radius: 36px;
-            border: 1px solid rgba(255,255,255,0.9);
+            position: relative; z-index: 2; font-size: 5.5rem; background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            padding: 52px 56px; border-radius: 36px; border: 1px solid rgba(255,255,255,0.9);
             box-shadow: 0 32px 64px rgba(10,46,15,0.12), 0 8px 24px rgba(10,46,15,0.06);
             animation: float 6s ease-in-out infinite;
         }
-
-        /* Floating data chips */
         .float-chip {
-            position: absolute; z-index: 3;
-            background: var(--white);
-            border-radius: 16px;
-            padding: 10px 16px;
-            box-shadow: var(--card-shadow);
-            font-size: 0.82rem; font-weight: 600;
-            display: flex; align-items: center; gap: 8px;
-            color: var(--green-800);
-            border: 1px solid var(--green-100);
-            white-space: nowrap;
+            position: absolute; z-index: 3; background: var(--white); border-radius: 16px; padding: 10px 16px;
+            box-shadow: var(--card-shadow); font-size: 0.82rem; font-weight: 600;
+            display: flex; align-items: center; gap: 8px; color: var(--green-800);
+            border: 1px solid var(--green-100); white-space: nowrap;
         }
         .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-500); }
         .chip-tl { top: 12%; left: -10%; animation: float 5s ease-in-out infinite 0.5s; }
         .chip-br { bottom: 14%; right: -8%; animation: float 5s ease-in-out infinite 1s; }
 
         /* ── How it works ────────────────────────────────────────────── */
-        .section-label {
-            font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
-            text-transform: uppercase; color: var(--green-500);
-            text-align: center; margin-bottom: 16px;
-        }
-        .section-heading {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem; font-weight: 900;
-            color: var(--green-900); text-align: center;
-            letter-spacing: -1px; margin-bottom: 14px;
-        }
-        .section-sub {
-            text-align: center; color: var(--warm-gray);
-            font-size: 1.05rem; max-width: 540px;
-            margin: 0 auto 60px;
-        }
-
+        .section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--green-500); text-align: center; margin-bottom: 16px; }
+        .section-heading { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; color: var(--green-900); text-align: center; letter-spacing: -1px; margin-bottom: 14px; }
+        .section-sub { text-align: center; color: var(--warm-gray); font-size: 1.05rem; max-width: 540px; margin: 0 auto 60px; }
+        
         .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
-
         .step-card {
-            background: var(--white);
-            border-radius: 24px; padding: 40px 32px;
-            border: 1px solid rgba(46,160,67,0.08);
-            box-shadow: var(--card-shadow);
-            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-            position: relative; overflow: hidden;
+            background: var(--white); border-radius: 24px; padding: 40px 32px;
+            border: 1px solid rgba(46,160,67,0.08); box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden;
         }
         .step-card::before {
-            content: '';
-            position: absolute; inset: 0;
+            content: ''; position: absolute; inset: 0;
             background: linear-gradient(135deg, rgba(46,160,67,0.04), transparent);
             opacity: 0; transition: opacity 0.4s;
         }
         .step-card:hover { transform:translateY(-10px); box-shadow: var(--card-shadow-hover); border-color: rgba(46,160,67,0.2); }
         .step-card:hover::before { opacity:1; }
-
-        .step-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem; font-weight: 900;
-            color: var(--green-100);
-            line-height: 1; margin-bottom: 20px;
-            transition: color 0.3s;
-        }
+        .step-num { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: var(--green-100); line-height: 1; margin-bottom: 20px; transition: color 0.3s; }
         .step-card:hover .step-num { color: rgba(46,160,67,0.15); }
-
         .step-icon-wrap {
-            width: 64px; height: 64px;
-            background: var(--green-50);
-            border-radius: 18px; display: flex;
-            align-items: center; justify-content: center;
-            font-size: 1.8rem; margin-bottom: 24px;
-            border: 1px solid var(--green-100);
-            transition: all 0.3s;
+            width: 64px; height: 64px; background: var(--green-50); border-radius: 18px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 24px;
+            border: 1px solid var(--green-100); transition: all 0.3s;
         }
         .step-card:hover .step-icon-wrap { background: var(--green-100); transform: rotate(5deg) scale(1.1); }
-
-        .step-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem; font-weight: 700;
-            color: var(--green-900); margin-bottom: 12px;
-        }
+        .step-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--green-900); margin-bottom: 12px; }
         .step-card p { color: var(--warm-gray); font-size: 0.95rem; line-height: 1.65; }
-
-        /* ── Supported plants strip ──────────────────────────────────── */
-        .plants-strip {
-            background: linear-gradient(135deg, var(--green-800), var(--green-900));
-            padding: 60px 6vw; position: relative; overflow: hidden;
-        }
-        .plants-strip::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        .plants-strip-inner { max-width: 1180px; margin: 0 auto; text-align: center; position:relative; }
-        .plants-strip h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem; font-weight: 700; color: var(--white);
-            margin-bottom: 30px; opacity: 0.9;
-        }
-        .plant-chips-row {
-            display: flex; flex-wrap: wrap;
-            justify-content: center; gap: 12px;
-        }
-        .plant-chip {
-            background: rgba(255,255,255,0.08);
-            color: rgba(255,255,255,0.85);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 0.9rem; font-weight: 500;
-            transition: all 0.25s;
-            cursor: default;
-        }
-        .plant-chip:hover {
-            background: rgba(255,255,255,0.16);
-            color: var(--white);
-            border-color: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
 
         /* ── FAQ ─────────────────────────────────────────────────────── */
         .faq-list { max-width: 760px; margin: 0 auto; }
-
         .faq-item {
-            background: var(--white); margin-bottom: 14px;
-            border-radius: 18px; overflow: hidden;
-            border: 1px solid rgba(46,160,67,0.08);
-            box-shadow: 0 2px 8px rgba(10,46,15,0.04);
-            transition: all 0.3s;
+            background: var(--white); margin-bottom: 14px; border-radius: 18px; overflow: hidden;
+            border: 1px solid rgba(46,160,67,0.08); box-shadow: 0 2px 8px rgba(10,46,15,0.04); transition: all 0.3s;
         }
         .faq-item:hover { border-color: rgba(46,160,67,0.2); box-shadow: var(--card-shadow); }
-
         .faq-question {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 22px 26px; cursor: pointer;
-            font-size: 1.05rem; font-weight: 600; color: var(--green-900);
-            user-select: none;
+            display: flex; justify-content: space-between; align-items: center; padding: 22px 26px; cursor: pointer;
+            font-size: 1.05rem; font-weight: 600; color: var(--green-900); user-select: none;
         }
         .faq-icon {
-            font-size: 1.2rem; color: var(--green-500);
-            background: var(--green-50); width: 32px; height: 32px;
-            display: flex; justify-content: center; align-items: center;
-            border-radius: 50%; flex-shrink: 0;
-            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-            border: 1px solid var(--green-100);
+            font-size: 1.2rem; color: var(--green-500); background: var(--green-50); width: 32px; height: 32px;
+            display: flex; justify-content: center; align-items: center; border-radius: 50%; flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1); border: 1px solid var(--green-100);
         }
         .faq-answer {
-            max-height: 0; overflow: hidden;
-            padding: 0 26px; color: var(--warm-gray);
-            font-size: 1rem; line-height: 1.7;
-            transition: all 0.4s ease; opacity: 0;
+            max-height: 0; overflow: hidden; padding: 0 26px; color: var(--warm-gray);
+            font-size: 1rem; line-height: 1.7; transition: all 0.4s ease; opacity: 0;
         }
         .faq-item.active .faq-answer { max-height: 200px; padding: 0 26px 22px; opacity: 1; }
         .faq-item.active .faq-icon { transform: rotate(45deg); background: var(--green-800); color: var(--white); border-color: var(--green-800); }
 
         /* ── DIAGNOSE VIEW ───────────────────────────────────────────── */
         .diagnose-header { text-align: center; padding: 60px 6vw 40px; }
-        .diagnose-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem; font-weight: 900; color: var(--green-900);
-            letter-spacing: -1px; margin-bottom: 12px;
-        }
+        .diagnose-header h2 { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--green-900); letter-spacing: -1px; margin-bottom: 12px; }
         .diagnose-header p { color: var(--warm-gray); font-size: 1.1rem; }
-
+        
         .upload-card {
-            background: var(--white); border-radius: 28px;
-            padding: 56px 52px;
+            background: var(--white); border-radius: 28px; padding: 56px 52px;
             box-shadow: 0 20px 60px rgba(10,46,15,0.1), 0 4px 16px rgba(10,46,15,0.06);
-            border: 1px solid rgba(46,160,67,0.1);
-            max-width: 760px; margin: 0 auto;
+            border: 1px solid rgba(46,160,67,0.1); max-width: 760px; margin: 0 auto;
         }
-
         .file-upload-wrapper {
-            position: relative;
-            border: 2px dashed rgba(46,160,67,0.25);
-            border-radius: 20px; padding: 56px 20px;
-            cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-            margin-bottom: 28px;
-            background: linear-gradient(135deg, var(--green-50), var(--cream));
-            text-align: center;
+            position: relative; border: 2px dashed rgba(46,160,67,0.25); border-radius: 20px; padding: 56px 20px;
+            cursor: pointer; transition: all 0.35s cubic-bezier(0.16,1,0.3,1); margin-bottom: 28px;
+            background: linear-gradient(135deg, var(--green-50), var(--cream)); text-align: center;
         }
-        .file-upload-wrapper:hover {
-            border-color: var(--green-500);
-            background: var(--green-100);
-            transform: scale(1.015);
-        }
-        .file-upload-wrapper input[type="file"] {
-            position: absolute; width: 100%; height: 100%;
-            top: 0; left: 0; opacity: 0; cursor: pointer;
-        }
-        .upload-icon {
-            font-size: 3.5rem; display: inline-block;
-            margin-bottom: 16px;
-            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-        }
+        .file-upload-wrapper:hover { border-color: var(--green-500); background: var(--green-100); transform: scale(1.015); }
+        .file-upload-wrapper input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
+        .upload-icon { font-size: 3.5rem; display: inline-block; margin-bottom: 16px; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
         .file-upload-wrapper:hover .upload-icon { transform: translateY(-8px) scale(1.1); }
-
-        #upload-text {
-            font-size: 1.1rem; color: #666;
-        }
-        #upload-text strong { color: var(--green-600, var(--green-500)); }
-        #file-name-display {
-            margin-top: 14px; font-weight: 600;
-            color: var(--green-700); font-size: 1rem;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, var(--green-700), var(--green-500));
-            color: var(--white); border: none;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1.05rem; font-weight: 600;
-            padding: 16px 40px; border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
-            box-shadow: 0 8px 24px rgba(46,160,67,0.25);
-            display: none; width: 100%; margin-top: 4px;
-            letter-spacing: 0.2px;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 36px rgba(46,160,67,0.35);
-        }
+        #upload-text { font-size: 1.1rem; color: #666; }
+        #upload-text strong { color: var(--green-500); }
+        #file-name-display { margin-top: 14px; font-weight: 600; color: var(--green-700); font-size: 1rem; }
 
         .loader {
-            display: none; margin: 24px auto;
-            border: 3px solid rgba(46,160,67,0.15);
-            border-top: 3px solid var(--green-500);
-            border-radius: 50%; width: 44px; height: 44px;
-            animation: spin 0.8s linear infinite;
+            display: none; margin: 24px auto; border: 3px solid rgba(46,160,67,0.15);
+            border-top: 3px solid var(--green-500); border-radius: 50%; width: 44px; height: 44px; animation: spin 0.8s linear infinite;
         }
-
         #status-text {
-            display: none; text-align: center;
-            font-weight: 600; color: var(--green-700);
-            font-size: 1rem; margin-top: 16px;
-            background: var(--green-50);
-            padding: 12px 24px; border-radius: 50px;
-            border: 1px solid var(--green-100);
-            max-width: 320px; margin-left: auto; margin-right: auto;
+            display: none; text-align: center; font-weight: 600; color: var(--green-700); font-size: 1rem; margin-top: 16px;
+            background: var(--green-50); padding: 12px 24px; border-radius: 50px; border: 1px solid var(--green-100); max-width: 320px; margin-left: auto; margin-right: auto;
         }
 
-        /* ── AI Result card (output injected HTML) ───────────────────── */
-        #result { margin-top: 32px; animation: fadeIn 0.5s ease; }
-
-        .result-card {
-            background: var(--white); border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(10,46,15,0.1);
-            border: 1px solid rgba(46,160,67,0.1);
-            margin-top: 20px;
-        }
-        .result-header { padding: 28px 30px; color: var(--white); }
+        /* ── AI Result card formatting (From Python Server) ───────────────────── */
+        #result { margin-top: 32px; animation: fadeIn 0.5s ease; text-align: left; }
+        .result-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 12px 40px rgba(10,46,15,0.1); border: 1px solid rgba(46,160,67,0.1); margin-top: 20px; }
+        .result-header { padding: 28px 30px; color: var(--white); text-align: center; }
         .status-healthy  { background: linear-gradient(135deg, #1a5422, #2ea043); }
         .status-diseased { background: linear-gradient(135deg, #7a1a1a, #c0392b); }
         .status-uncertain{ background: linear-gradient(135deg, #7a5a1a, #d4820a); }
-
-        .status-badge {
-            font-size: 0.75rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 2px;
-            opacity: 0.85; margin-bottom: 8px;
-        }
-        .disease-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem; font-weight: 900; margin-bottom: 8px; line-height: 1.2;
-        }
-        .conf-badge span {
-            background: rgba(255,255,255,0.2); padding: 4px 14px;
-            border-radius: 20px; font-size: 0.85rem; font-weight: 600;
-        }
-        .conf-high   { color: #b7f0a8; }
-        .conf-medium { color: #ffe9a0; }
-        .conf-low    { color: #ffcba8; }
-
+        .status-badge { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.85; margin-bottom: 8px; }
+        .disease-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin-bottom: 8px; line-height: 1.2; }
+        .conf-badge span { background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
         .result-body { padding: 30px; }
         .section { margin-bottom: 28px; }
-        .section:last-child { margin-bottom: 0; }
-
-        .section-title {
-            font-size: 0.75rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 2px;
-            color: var(--green-700); margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--green-100);
-            display: flex; align-items: center; gap: 6px;
-        }
+        .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green-700); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--green-100); display: flex; align-items: center; gap: 6px; }
         .section-text { font-size: 0.95rem; color: #444; line-height: 1.7; }
-
         .remedy-list { list-style: none; padding: 0; }
-        .remedy-item {
-            font-size: 0.92rem; color: #444; line-height: 1.6;
-            padding: 10px 0 10px 20px; position: relative;
-            border-bottom: 1px solid rgba(46,160,67,0.06);
-        }
+        .remedy-item { font-size: 0.92rem; color: #444; line-height: 1.6; padding: 10px 0 10px 20px; position: relative; border-bottom: 1px solid rgba(46,160,67,0.06); }
         .remedy-item:last-child { border-bottom: none; }
-        .remedy-item::before {
-            content: '→'; position: absolute; left: 0;
-            color: var(--green-500); font-weight: 700;
-        }
-
+        .remedy-item::before { content: '→'; position: absolute; left: 0; color: var(--green-500); font-weight: 700; }
         .top3-item { display: flex; align-items: center; margin-bottom: 10px; gap: 12px; }
         .top3-name { flex: 0 0 42%; font-size: 0.88rem; color: #555; font-weight: 500; text-align: right; padding-right: 4px; }
         .top3-bar-wrap { flex: 1; background: var(--green-50); height: 10px; border-radius: 8px; overflow: hidden; border: 1px solid var(--green-100); }
         .top3-bar { height: 100%; background: linear-gradient(90deg, var(--green-500), var(--green-400)); border-radius: 8px; }
         .top3-pct { flex: 0 0 13%; font-size: 0.9rem; font-weight: 700; color: var(--green-800); }
 
-        /* ── Footer ──────────────────────────────────────────────────── */
-        footer {
-            text-align: center; padding: 48px 6vw;
-            border-top: 1px solid rgba(46,160,67,0.1);
-            position: relative; z-index: 1;
-        }
-        .footer-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem; font-weight: 900;
-            color: var(--green-800); margin-bottom: 10px;
-        }
+        footer { text-align: center; padding: 48px 6vw; border-top: 1px solid rgba(46,160,67,0.1); position: relative; z-index: 1; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--green-800); margin-bottom: 10px; }
         footer p { color: var(--warm-gray); font-size: 0.9rem; }
 
-        /* ── Responsive ──────────────────────────────────────────────── */
         @media (max-width: 900px) {
             .hero-grid { grid-template-columns: 1fr; min-height: auto; text-align: center; }
             .hero-text p { max-width: 100%; }
@@ -543,47 +293,32 @@
         @media (max-width: 600px) {
             .hero-text h1 { font-size: 2.6rem; }
             .upload-card { padding: 28px 20px; }
-            .top3-name { flex: 0 0 35%; font-size: 0.8rem; }
             .navbar { padding: 14px 4vw; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ── Navbar ─────────────────────────────────────────────────── -->
     <nav class="navbar fade-up">
         <div class="logo" onclick="switchTab('home')">
             <span class="logo-leaf">🌿</span> PlantCare
         </div>
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('home')"     id="tab-home">Home</button>
-            <button class="tab-btn"        onclick="switchTab('diagnose')" id="tab-diagnose">Diagnose</button>
+            <button class="tab-btn active" onclick="switchTab('home')" id="tab-home">Home</button>
+            <button class="tab-btn" onclick="switchTab('diagnose')" id="tab-diagnose">Diagnose</button>
         </div>
     </nav>
 
-    <!-- ══════════════════════════════════════════════════════════════ -->
-    <!--  HOME VIEW                                                      -->
-    <!-- ══════════════════════════════════════════════════════════════ -->
     <main id="view-home" class="view active">
-
-        <!-- Hero -->
+        
         <section class="section-container">
             <div class="hero-grid">
                 <div class="hero-text">
-                    <div class="hero-eyebrow fade-up d1">
-                        <span>✦</span> AI-Powered Plant Health
-                    </div>
-                    <h1 class="fade-up d2">
-                        Identify Plant<br><em>Diseases</em><br>Instantly.
-                    </h1>
-                    <p class="fade-up d3">
-                        Upload a photo of a sick leaf and our advanced AI tells you exactly
-                        what's wrong — and how to fix it — in seconds.
-                    </p>
+                    <div class="hero-eyebrow fade-up d1"><span>✦</span> AI-Powered Plant Health</div>
+                    <h1 class="fade-up d2">Identify Plant<br><em>Diseases</em><br>Instantly.</h1>
+                    <p class="fade-up d3">Upload a photo of a sick leaf and our advanced AI tells you exactly what's wrong — and how to fix it — in seconds.</p>
                     <div class="hero-cta-row fade-up d4">
-                        <button class="btn-primary" onclick="switchTab('diagnose')">
-                            Diagnose Your Plant &nbsp;→
-                        </button>
+                        <button class="btn-primary" onclick="switchTab('diagnose')">Diagnose Your Plant &nbsp;→</button>
                         <div class="hero-stat">
                             <div class="hero-stat-num">38</div>
                             <div class="hero-stat-label">disease<br>classes</div>
@@ -594,26 +329,20 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="hero-visual-container fade-up d3">
                     <div class="hero-blob"></div>
                     <div class="floating-glass-card">🪴</div>
-                    <div class="float-chip chip-tl">
-                        <span class="chip-dot"></span> Disease detected
-                    </div>
-                    <div class="float-chip chip-br">
-                        <span class="chip-dot"></span> Treatment ready
-                    </div>
+                    <div class="float-chip chip-tl"><span class="chip-dot"></span> Disease detected</div>
+                    <div class="float-chip chip-br"><span class="chip-dot"></span> Treatment ready</div>
                 </div>
             </div>
         </section>
 
-        <!-- How it works -->
         <section class="section-container" style="padding-top:20px;">
             <div class="section-label fade-up d1">The Process</div>
             <h2 class="section-heading fade-up d2">How it works</h2>
             <p class="section-sub fade-up d2">Professional botanical diagnosis in three simple steps.</p>
-
+            
             <div class="steps-grid">
                 <div class="step-card fade-up d1">
                     <div class="step-num">01</div>
@@ -625,172 +354,146 @@
                     <div class="step-num">02</div>
                     <div class="step-icon-wrap">🧠</div>
                     <h3>Get a diagnosis</h3>
-                    <p>Our advanced EfficientNet-B4 model instantly analyses the image against 38 plant diseases.</p>
+                    <p>Our advanced AI model instantly analyses the image against dozens of plant diseases.</p>
                 </div>
                 <div class="step-card fade-up d3">
                     <div class="step-num">03</div>
                     <div class="step-icon-wrap">💊</div>
                     <h3>Treatment plan</h3>
-                    <p>Receive detailed, actionable treatment advice to cure the disease and protect your crops.</p>
+                    <p>Receive detailed, actionable advice on how to cure the disease and save your plant.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Supported plants -->
-        <div class="plants-strip">
-            <div class="plants-strip-inner">
-                <h3>14 supported plants · 38 disease categories</h3>
-                <div class="plant-chips-row">
-                    <span class="plant-chip">🍎 Apple</span>
-                    <span class="plant-chip">🫐 Blueberry</span>
-                    <span class="plant-chip">🍒 Cherry</span>
-                    <span class="plant-chip">🌽 Corn</span>
-                    <span class="plant-chip">🍇 Grape</span>
-                    <span class="plant-chip">🍊 Orange</span>
-                    <span class="plant-chip">🍑 Peach</span>
-                    <span class="plant-chip">🫑 Bell Pepper</span>
-                    <span class="plant-chip">🥔 Potato</span>
-                    <span class="plant-chip">🍓 Strawberry</span>
-                    <span class="plant-chip">🫘 Soybean</span>
-                    <span class="plant-chip">🎃 Squash</span>
-                    <span class="plant-chip">🍅 Tomato</span>
-                    <span class="plant-chip">🌱 Raspberry</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAQ -->
         <section class="section-container">
-            <div class="section-label fade-up d1">Questions</div>
-            <h2 class="section-heading fade-up d2">Frequently Asked</h2>
-            <p class="section-sub fade-up d2">Everything you need to know about PlantCare AI.</p>
-
+            <div class="section-label fade-up d1">Support</div>
+            <h2 class="section-heading fade-up d2">Frequently Asked Questions</h2>
+            <br>
             <div class="faq-list fade-up d3">
                 <div class="faq-item">
                     <div class="faq-question">How accurate is the AI diagnosis? <span class="faq-icon">+</span></div>
-                    <div class="faq-answer">Our AI is trained on hundreds of thousands of healthy and diseased plant images. It currently identifies over 38 of the most common plant diseases with an accuracy rate of over 90% when provided with a clear, well-lit photograph.</div>
+                    <div class="faq-answer">Our AI is trained on hundreds of thousands of healthy and diseased plant images. It currently identifies over 50 of the most common plant diseases with an accuracy rate of over 90% when provided with a clear, well-lit photograph.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">What kind of photo works best? <span class="faq-icon">+</span></div>
-                    <div class="faq-answer">For the best results, ensure the affected leaf or area is well-lit (natural daylight is best) and centered in the frame. Avoid blurry images or photos where the plant is too far away. Fill the frame with the leaf.</div>
+                    <div class="faq-answer">For the best results, ensure the affected leaf or area is well-lit (natural daylight is best) and centered in the frame. Avoid blurry images or photos where the plant is too far away.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">Can it identify indoor and outdoor plants? <span class="faq-icon">+</span></div>
-                    <div class="faq-answer">Yes! The model is trained to recognise diseases across a wide variety of flora, from outdoor garden crops like Tomatoes and Apple trees to common agricultural plants like Corn, Potato, and Soybean.</div>
+                    <div class="faq-answer">Yes! The model is trained to recognize diseases across a wide variety of flora, from common indoor houseplants like Pothos and Ficus to outdoor garden crops like Tomatoes and Apple trees.</div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- ══════════════════════════════════════════════════════════════ -->
-    <!--  DIAGNOSE VIEW                                                  -->
-    <!-- ══════════════════════════════════════════════════════════════ -->
     <main id="view-diagnose" class="view">
-
         <div class="diagnose-header fade-up d1">
             <h2>Diagnose Your Plant</h2>
-            <p>Upload a clear, well-lit photo of the affected leaf for the most accurate result.</p>
+            <p>Upload a clear picture of the sick leaf to begin.</p>
         </div>
-
-        <div class="section-container" style="padding-top:0;">
+        
+        <div class="section-container" style="padding-top: 0;">
             <div class="upload-card fade-up d2">
-
+                
                 <div class="file-upload-wrapper" id="drop-zone">
                     <span class="upload-icon">📥</span>
-                    <div id="upload-text" style="font-size:1.1rem;color:#555;">
-                        Drag &amp; drop your image here, or
-                        <strong style="color:var(--green-600,var(--green-500));">browse files</strong>
-                    </div>
+                    <div id="upload-text">Drag & drop your image here, or <strong>browse files</strong></div>
                     <input type="file" id="imageInput" accept="image/*" />
                     <div id="file-name-display"></div>
                 </div>
-
-                <button id="analyzeBtn" class="btn">✨ &nbsp;Analyse Leaf</button>
-
+                
+                <button id="analyzeBtn" class="btn-primary" style="display: none; width: 100%;">✨ Analyse Leaf</button>
+                
                 <div id="loading" class="loader"></div>
-                <div id="status-text">🤖 AI is analysing your plant…</div>
-
+                <div id="status-text">AI is analyzing your plant...</div>
+                
                 <div id="result"></div>
             </div>
         </div>
-
     </main>
 
-    <!-- ── Footer ─────────────────────────────────────────────────── -->
-    <footer class="fade-up d3">
+    <footer>
         <div class="footer-logo">🌿 PlantCare</div>
-        <p>© 2026 PlantCare AI · Built for nature lovers · Always consult a qualified agronomist for critical crop decisions.</p>
+        <p>© 2026 PlantCare AI. Built for nature lovers.</p>
     </footer>
 
-    <!-- ── Scripts (unchanged logic) ─────────────────────────────── -->
     <script type="module">
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
-        // Tab switching
+        // --- TAB SWITCHING LOGIC ---
         window.switchTab = function(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.view').forEach(view => {
                 view.classList.remove('active');
-                view.querySelectorAll('.fade-up').forEach(el => {
+                
+                // Re-trigger CSS animations smoothly
+                const animatedElements = view.querySelectorAll('.fade-up');
+                animatedElements.forEach(el => {
                     el.style.animation = 'none';
-                    el.offsetHeight;
-                    el.style.animation = null;
+                    el.offsetHeight; 
+                    el.style.animation = null; 
                 });
             });
+            
             document.getElementById('tab-' + tabId).classList.add('active');
             document.getElementById('view-' + tabId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // FAQ accordion
+        // --- FAQ INTERACTIVITY ---
         document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', () => item.parentElement.classList.toggle('active'));
+            item.addEventListener('click', () => {
+                item.parentElement.classList.toggle('active');
+            });
         });
 
-        // File input
-        const fileInput      = document.getElementById("imageInput");
-        const fileNameDisplay= document.getElementById("file-name-display");
-        const analyzeBtn     = document.getElementById("analyzeBtn");
-        const uploadText     = document.getElementById("upload-text");
+        // --- AI DIAGNOSIS LOGIC (Preserved exactly as requested) ---
+        const fileInput = document.getElementById("imageInput");
+        const fileNameDisplay = document.getElementById("file-name-display");
+        const analyzeBtn = document.getElementById("analyzeBtn");
+        const uploadText = document.getElementById("upload-text");
 
         fileInput.addEventListener("change", () => {
             if (fileInput.files.length > 0) {
                 fileNameDisplay.innerText = "Selected: " + fileInput.files[0].name;
-                uploadText.style.display  = "none";
-                analyzeBtn.style.display  = "block";
+                uploadText.style.display = "none";
+                analyzeBtn.style.display = "block"; 
                 analyzeBtn.style.animation = "pulse 2s infinite";
             }
         });
 
-        // Analyze
         analyzeBtn.addEventListener("click", async () => {
-            const resultDiv     = document.getElementById("result");
-            const loadingSpinner= document.getElementById("loading");
-            const statusText    = document.getElementById("status-text");
+            const resultDiv = document.getElementById("result");
+            const loadingSpinner = document.getElementById("loading");
+            const statusText = document.getElementById("status-text");
 
-            analyzeBtn.style.display    = "none";
-            analyzeBtn.style.animation  = "none";
-            resultDiv.innerHTML         = "";
-            loadingSpinner.style.display= "block";
-            statusText.style.display    = "block";
-
+            analyzeBtn.style.display = "none"; 
+            analyzeBtn.style.animation = "none";
+            resultDiv.innerHTML = ""; 
+            loadingSpinner.style.display = "block"; 
+            statusText.style.display = "block"; 
+            
             try {
-                const app    = await client("dev312/plantcare_major");
-                const result = await app.predict("/predict", [ fileInput.files[0] ]);
-
+                // Connecting safely to your Hugging Face space
+                const app = await client("dev312/plantcare_major");
+                const imageFile = fileInput.files[0];
+                
+                const result = await app.predict("/predict", [ imageFile ]); 
+                
                 loadingSpinner.style.display = "none";
-                statusText.style.display     = "none";
-                resultDiv.innerHTML          = result.data[0];
-
+                statusText.style.display = "none";
+                
+                // Injecting Gradio's beautiful response into our UI
+                resultDiv.innerHTML = result.data[0];
+                
                 analyzeBtn.style.display = "block";
-                analyzeBtn.innerText     = "↻  Analyse Another Leaf";
+                analyzeBtn.innerText = "↻ Analyse Another Leaf";
 
             } catch (error) {
                 loadingSpinner.style.display = "none";
-                statusText.style.display     = "none";
-                analyzeBtn.style.display     = "block";
-                resultDiv.innerHTML = "<p style='color:#c0392b;text-align:center;padding:24px;background:#fdf0f0;border-radius:14px;font-weight:600;border:1px solid #f5c6c6;'>Connection Error: Could not reach the AI. Please ensure your Space is active.</p>";
+                statusText.style.display = "none";
+                analyzeBtn.style.display = "block";
+                resultDiv.innerHTML = "<p style='color: #c0392b; text-align: center; padding: 25px; background: #fdf0f0; border-radius: 14px; font-weight: 600; border: 1px solid #f5c6c6;'>Connection Error: Could not reach the AI. Please ensure your backend is active.</p>";
                 console.error(error);
             }
         });
