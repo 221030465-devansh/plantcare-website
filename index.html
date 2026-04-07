@@ -202,6 +202,40 @@
 
         @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .steps-grid { grid-template-columns: 1fr; } }
         @media (max-width: 600px) { .top3-item { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 20px; } .top3-name { text-align: left; width: 100%; } .top3-bar-wrap { width: 100%; } .top3-pct { text-align: right; width: 100%; margin-top: -24px; } }
+        /* 🖨️ PRINT MEDIA QUERY: Makes the PDF look like a real document */
+        @media print {
+            /* 1. Hide EVERYTHING on the page by default */
+            body * {
+                visibility: hidden;
+            }
+
+            /* 2. Make ONLY the printable report and its contents visible */
+            #printable-report, #printable-report * {
+                visibility: visible;
+            }
+
+            /* 3. Move the report to the absolute top-left of the PDF page */
+            #printable-report {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background-color: white !important;
+            }
+
+            /* 4. Force hide specific UI buttons that might try to sneak in */
+            #pdf-action, #downloadPdfBtn, .tab-btn, #analyzeBtn {
+                display: none !important;
+            }
+            
+            /* Optional: Remove box shadows and borders for a cleaner paper look */
+            .gradio-container {
+                border: none !important;
+                box-shadow: none !important;
+            }
+        }
     </style>
 </head>
 <body>
