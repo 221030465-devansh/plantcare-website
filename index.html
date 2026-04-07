@@ -252,29 +252,117 @@
             background: var(--green-50); padding: 12px 24px; border-radius: 50px; border: 1px solid var(--green-100); max-width: 320px; margin-left: auto; margin-right: auto;
         }
 
-        /* ── AI Result card formatting (From Python Server) ───────────────────── */
-        #result { margin-top: 32px; animation: fadeIn 0.5s ease; text-align: left; }
-        .result-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 12px 40px rgba(10,46,15,0.1); border: 1px solid rgba(46,160,67,0.1); margin-top: 20px; }
-        .result-header { padding: 28px 30px; color: var(--white); text-align: center; }
-        .status-healthy  { background: linear-gradient(135deg, #1a5422, #2ea043); }
-        .status-diseased { background: linear-gradient(135deg, #7a1a1a, #c0392b); }
-        .status-uncertain{ background: linear-gradient(135deg, #7a5a1a, #d4820a); }
-        .status-badge { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.85; margin-bottom: 8px; }
-        .disease-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin-bottom: 8px; line-height: 1.2; }
-        .conf-badge span { background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
-        .result-body { padding: 30px; }
-        .section { margin-bottom: 28px; }
-        .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green-700); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--green-100); display: flex; align-items: center; gap: 6px; }
-        .section-text { font-size: 0.95rem; color: #444; line-height: 1.7; }
-        .remedy-list { list-style: none; padding: 0; }
-        .remedy-item { font-size: 0.92rem; color: #444; line-height: 1.6; padding: 10px 0 10px 20px; position: relative; border-bottom: 1px solid rgba(46,160,67,0.06); }
+        /* ── AI RESULT CARD (PREMIUM UPGRADE) ────────────────────────── */
+        #result { 
+            margin-top: 40px; 
+            animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards; 
+            text-align: left; 
+        }
+        .result-card { 
+            background: var(--white); 
+            border-radius: 28px; 
+            overflow: hidden; 
+            box-shadow: 0 24px 48px rgba(10,46,15,0.08), 0 8px 16px rgba(10,46,15,0.04); 
+            border: 1px solid rgba(46,160,67,0.15); 
+            margin-top: 20px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 32px 64px rgba(10,46,15,0.12), 0 12px 24px rgba(10,46,15,0.06);
+        }
+        
+        .result-header { 
+            padding: 45px 30px; color: var(--white); text-align: center; 
+            position: relative; overflow: hidden; 
+        }
+        .result-header::before {
+            content: ''; position: absolute; inset: 0; 
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.25), transparent 60%);
+        }
+        
+        .status-healthy  { background: linear-gradient(135deg, #0f3616, #2ea043); }
+        .status-diseased { background: linear-gradient(135deg, #4a0f0f, #c0392b); }
+        .status-uncertain{ background: linear-gradient(135deg, #5c3a00, #e67e22); }
+        
+        .status-badge { 
+            display: inline-block; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 3px; background: rgba(0,0,0,0.2); padding: 8px 18px; border-radius: 50px;
+            margin-bottom: 16px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .disease-name { 
+            font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; 
+            margin-bottom: 18px; line-height: 1.1; letter-spacing: -0.5px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.15); position: relative; z-index: 1;
+        }
+        .conf-badge span { 
+            background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 50px; 
+            font-size: 0.95rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; z-index: 1;
+        }
+        
+        .result-body { padding: 40px; background: var(--white); }
+        
+        /* Box inside Box Design for text sections */
+        .section { 
+            background: var(--cream); padding: 28px; border-radius: 20px; 
+            margin-bottom: 24px; border: 1px solid rgba(46,160,67,0.06);
+            transition: all 0.3s ease;
+        }
+        .section:hover { 
+            background: var(--white); border-color: rgba(46,160,67,0.2); 
+            box-shadow: 0 8px 24px rgba(10,46,15,0.04); 
+        }
+        
+        .section-title { 
+            font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 2px; color: var(--green-800); 
+            margin-bottom: 16px; display: flex; align-items: center; gap: 8px; 
+        }
+        .section-title::before { content: '✦'; color: var(--green-500); font-size: 1.2rem; }
+        
+        .section-text { font-size: 1.05rem; color: #333; line-height: 1.8; }
+        
+        /* Custom Checklist for Remedies */
+        .remedy-list { list-style: none; padding: 0; margin: 0; }
+        .remedy-item { 
+            font-size: 1.05rem; color: #333; line-height: 1.6; 
+            padding: 16px 16px 16px 48px; position: relative; 
+            border-bottom: 1px solid rgba(46,160,67,0.06); 
+            transition: transform 0.2s ease, background 0.2s ease;
+            border-radius: 12px;
+        }
         .remedy-item:last-child { border-bottom: none; }
-        .remedy-item::before { content: '→'; position: absolute; left: 0; color: var(--green-500); font-weight: 700; }
-        .top3-item { display: flex; align-items: center; margin-bottom: 10px; gap: 12px; }
-        .top3-name { flex: 0 0 42%; font-size: 0.88rem; color: #555; font-weight: 500; text-align: right; padding-right: 4px; }
-        .top3-bar-wrap { flex: 1; background: var(--green-50); height: 10px; border-radius: 8px; overflow: hidden; border: 1px solid var(--green-100); }
-        .top3-bar { height: 100%; background: linear-gradient(90deg, var(--green-500), var(--green-400)); border-radius: 8px; }
-        .top3-pct { flex: 0 0 13%; font-size: 0.9rem; font-weight: 700; color: var(--green-800); }
+        .remedy-item:hover { 
+            background: var(--white); transform: translateX(4px); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-color: transparent;
+        }
+        .remedy-item::before { 
+            content: '✓'; position: absolute; left: 12px; top: 16px; 
+            color: var(--white); background: var(--green-500); 
+            width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; 
+            border-radius: 50%; font-size: 0.75rem; font-weight: bold;
+            box-shadow: 0 2px 6px rgba(46,160,67,0.3);
+        }
+        
+        /* Animated Progress Bars */
+        .top3-container { padding-top: 10px; }
+        .top3-item { display: flex; align-items: center; margin-bottom: 16px; gap: 16px; }
+        .top3-name { flex: 0 0 38%; font-size: 0.95rem; color: #444; font-weight: 600; text-align: right; }
+        .top3-bar-wrap { 
+            flex: 1; background: var(--green-100); height: 12px; 
+            border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); 
+        }
+        
+        @keyframes slideFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        .top3-bar { 
+            height: 100%; background: linear-gradient(90deg, var(--green-500), var(--green-400)); 
+            border-radius: 10px; transform-origin: left;
+            animation: slideFill 1.2s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        
+        .top3-pct { flex: 0 0 14%; font-size: 1rem; font-weight: 800; color: var(--green-900); }
 
         footer { text-align: center; padding: 48px 6vw; border-top: 1px solid rgba(46,160,67,0.1); position: relative; z-index: 1; }
         .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--green-800); margin-bottom: 10px; }
@@ -294,6 +382,10 @@
             .hero-text h1 { font-size: 2.6rem; }
             .upload-card { padding: 28px 20px; }
             .navbar { padding: 14px 4vw; }
+            .top3-item { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 20px; }
+            .top3-name { text-align: left; width: 100%; }
+            .top3-bar-wrap { width: 100%; }
+            .top3-pct { text-align: right; width: 100%; margin-top: -24px; }
         }
     </style>
 </head>
