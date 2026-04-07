@@ -74,13 +74,13 @@
         .hero-text h1 em { font-style: italic; color: var(--green-500); position: relative; }
         .hero-text h1 em::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green-500), var(--green-400)); border-radius: 2px; }
         .hero-text p { font-size: 1.15rem; color: var(--warm-gray); margin-bottom: 40px; max-width: 480px; line-height: 1.8; }
+        .hero-cta-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
         .btn-primary { background: linear-gradient(135deg, var(--green-700), var(--green-500)); color: var(--white); border: none; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; padding: 16px 36px; border-radius: 50px; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 24px rgba(46,160,67,0.3); }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(46,160,67,0.4); }
 
         .hero-stat { display: flex; align-items: center; gap: 12px; }
         .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--green-800); line-height: 1; }
         .hero-stat-label { font-size: 0.82rem; color: var(--warm-gray); line-height: 1.3; }
-        .hero-cta-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 
         .hero-visual-container { position: relative; display: flex; justify-content: center; align-items: center; height: 100%; min-height: 420px; }
         .hero-blob { position: absolute; width: 380px; height: 380px; background: radial-gradient(circle at 40% 40%, rgba(46,160,67,0.18), rgba(46,160,67,0.03)); border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; animation: leafSway 8s ease-in-out infinite; }
@@ -96,49 +96,22 @@
         .section-sub { text-align: center; color: var(--warm-gray); font-size: 1.05rem; max-width: 540px; margin: 0 auto 60px; }
         
         .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
-        .step-card {
-            background: var(--white); border-radius: 24px; padding: 40px 32px;
-            border: 1px solid rgba(46,160,67,0.08); box-shadow: var(--card-shadow);
-            transition: all 0.4s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden;
-        }
-        .step-card::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(46,160,67,0.04), transparent);
-            opacity: 0; transition: opacity 0.4s;
-        }
+        .step-card { background: var(--white); border-radius: 24px; padding: 40px 32px; border: 1px solid rgba(46,160,67,0.08); box-shadow: var(--card-shadow); transition: all 0.4s; position: relative; overflow: hidden; }
         .step-card:hover { transform:translateY(-10px); box-shadow: var(--card-shadow-hover); border-color: rgba(46,160,67,0.2); }
-        .step-card:hover::before { opacity:1; }
         .step-num { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: var(--green-100); line-height: 1; margin-bottom: 20px; transition: color 0.3s; }
         .step-card:hover .step-num { color: rgba(46,160,67,0.15); }
-        .step-icon-wrap {
-            width: 64px; height: 64px; background: var(--green-50); border-radius: 18px;
-            display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 24px;
-            border: 1px solid var(--green-100); transition: all 0.3s;
-        }
+        .step-icon-wrap { width: 64px; height: 64px; background: var(--green-50); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 24px; border: 1px solid var(--green-100); transition: all 0.3s; }
         .step-card:hover .step-icon-wrap { background: var(--green-100); transform: rotate(5deg) scale(1.1); }
         .step-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--green-900); margin-bottom: 12px; }
         .step-card p { color: var(--warm-gray); font-size: 0.95rem; line-height: 1.65; }
 
         /* ── FAQ ─────────────────────────────────────────────────────── */
         .faq-list { max-width: 760px; margin: 0 auto; }
-        .faq-item {
-            background: var(--white); margin-bottom: 14px; border-radius: 18px; overflow: hidden;
-            border: 1px solid rgba(46,160,67,0.08); box-shadow: 0 2px 8px rgba(10,46,15,0.04); transition: all 0.3s;
-        }
+        .faq-item { background: var(--white); margin-bottom: 14px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(46,160,67,0.08); box-shadow: 0 2px 8px rgba(10,46,15,0.04); transition: all 0.3s; }
         .faq-item:hover { border-color: rgba(46,160,67,0.2); box-shadow: var(--card-shadow); }
-        .faq-question {
-            display: flex; justify-content: space-between; align-items: center; padding: 22px 26px; cursor: pointer;
-            font-size: 1.05rem; font-weight: 600; color: var(--green-900); user-select: none;
-        }
-        .faq-icon {
-            font-size: 1.2rem; color: var(--green-500); background: var(--green-50); width: 32px; height: 32px;
-            display: flex; justify-content: center; align-items: center; border-radius: 50%; flex-shrink: 0;
-            transition: all 0.4s cubic-bezier(0.16,1,0.3,1); border: 1px solid var(--green-100);
-        }
-        .faq-answer {
-            max-height: 0; overflow: hidden; padding: 0 26px; color: var(--warm-gray);
-            font-size: 1rem; line-height: 1.7; transition: all 0.4s ease; opacity: 0;
-        }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 22px 26px; cursor: pointer; font-size: 1.05rem; font-weight: 600; color: var(--green-900); user-select: none; }
+        .faq-icon { font-size: 1.2rem; color: var(--green-500); background: var(--green-50); width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; border-radius: 50%; transition: all 0.4s; border: 1px solid var(--green-100); }
+        .faq-answer { max-height: 0; overflow: hidden; padding: 0 26px; color: var(--warm-gray); font-size: 1rem; line-height: 1.7; transition: all 0.4s ease; opacity: 0; }
         .faq-item.active .faq-answer { max-height: 200px; padding: 0 26px 22px; opacity: 1; }
         .faq-item.active .faq-icon { transform: rotate(45deg); background: var(--green-800); color: var(--white); border-color: var(--green-800); }
 
@@ -202,98 +175,38 @@
 
         @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .steps-grid { grid-template-columns: 1fr; } }
         @media (max-width: 600px) { .top3-item { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 20px; } .top3-name { text-align: left; width: 100%; } .top3-bar-wrap { width: 100%; } .top3-pct { text-align: right; width: 100%; margin-top: -24px; } }
-       /* 🖨️ ADVANCED PRINT MEDIA QUERY: Forces a beautiful 1-page PDF Report */
+
+        /* 🖨️ ADVANCED PRINT CSS: Beautiful PDF Output */
         @media print {
-            /* 1. Force the browser to render our beautiful background gradients */
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            /* 2. Define the page size and REMOVE the ugly browser URLs and Dates */
-            @page {
-                size: A4 portrait;
-                margin: 0mm; /* Removes browser headers and footers completely */
-            }
-
-            /* 3. Hide the entire website UI */
-            body * {
-                visibility: hidden;
-            }
-
-            /* 4. Reset body styling for paper */
-            body {
-                background: white !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
-            /* 5. Un-hide ONLY our diagnostic report */
-            #printable-report, #printable-report * {
-                visibility: visible;
-            }
-
-            /* 6. Position the report perfectly at the top-left of the A4 page */
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            @page { size: A4 portrait; margin: 0mm; }
+            body * { visibility: hidden; }
+            body { background: white !important; margin: 0 !important; padding: 0 !important; }
+            #printable-report, #printable-report * { visibility: visible; }
+            
             #printable-report {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100vw !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-                padding: 10mm 15mm !important; /* Professional document margins */
-                box-sizing: border-box;
+                position: absolute; left: 0; top: 0; width: 100vw !important; max-width: 100% !important;
+                margin: 0 !important; padding: 10mm 15mm !important; box-sizing: border-box;
             }
-
-            /* 7. Hide the upload buttons and action buttons from the PDF */
-            #drop-zone, #analyzeBtn, #pdf-action, .diagnose-header, #loading, #status-text {
-                display: none !important;
-            }
-
-            /* 8. Scale down the elements so they fit perfectly on ONE page */
-            .weather-card {
-                margin: 0 0 15px 0 !important;
-                padding: 12px 20px !important;
-                border-radius: 12px !important;
-                box-shadow: none !important;
-                border: 1px solid #80deea !important;
-            }
+            #drop-zone, #analyzeBtn, #pdf-action, .diagnose-header, #loading, #status-text { display: none !important; }
+            
+            .weather-card { margin: 0 0 15px 0 !important; padding: 12px 20px !important; border-radius: 12px !important; box-shadow: none !important; border: 1px solid #80deea !important; }
             .weather-title { font-size: 0.8rem !important; margin-bottom: 8px !important; }
             .w-stat { font-size: 0.8rem !important; padding: 4px 10px !important; }
             .weather-alert-text { font-size: 0.9rem !important; }
 
-            .result-card {
-                margin: 0 !important;
-                border-radius: 12px !important;
-                box-shadow: none !important;
-                border: 1px solid #cfcfcf !important;
-            }
+            .result-card { margin: 0 !important; border-radius: 12px !important; box-shadow: none !important; border: 1px solid #cfcfcf !important; }
             .result-header { padding: 20px !important; }
             .disease-name { font-size: 2rem !important; margin-bottom: 8px !important; }
             .status-badge { font-size: 0.7rem !important; padding: 6px 14px !important; margin-bottom: 10px !important; }
-            
             .result-body { padding: 20px !important; }
             
-            /* 9. Prevent boxes from breaking in half across pages */
-            .section {
-                padding: 15px !important;
-                margin-bottom: 15px !important;
-                border-radius: 10px !important;
-                page-break-inside: avoid !important; /* Magic rule to keep boxes intact */
-            }
+            .section { padding: 15px !important; margin-bottom: 15px !important; border-radius: 10px !important; page-break-inside: avoid !important; }
             .section-title { font-size: 0.8rem !important; margin-bottom: 10px !important; }
             .section-text { font-size: 0.95rem !important; line-height: 1.5 !important; }
             
-            .remedy-item { 
-                font-size: 0.95rem !important; 
-                padding: 10px 10px 10px 35px !important; 
-                line-height: 1.4 !important;
-            }
-            .remedy-item::before { 
-                top: 10px !important; left: 10px !important; 
-                width: 18px !important; height: 18px !important; font-size: 0.6rem !important;
-            }
-            
+            .remedy-item { font-size: 0.95rem !important; padding: 10px 10px 10px 35px !important; line-height: 1.4 !important; }
+            .remedy-item::before { top: 10px !important; left: 10px !important; width: 18px !important; height: 18px !important; font-size: 0.6rem !important; }
             .top3-item { margin-bottom: 10px !important; }
             .top3-name { font-size: 0.85rem !important; }
             .top3-pct { font-size: 0.9rem !important; }
@@ -311,7 +224,6 @@
     </nav>
 
     <main id="view-home" class="view active">
-        
         <section class="section-container">
             <div class="hero-grid">
                 <div class="hero-text">
@@ -385,7 +297,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <main id="view-diagnose" class="view">
@@ -442,22 +353,36 @@
     <script type="module">
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
-        // --- TAB LOGIC ---
+        // TAB SWITCHING LOGIC (Bulletproof)
         window.switchTab = function(tabId) {
+            // Remove active class from all tabs and views
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+                
+                // Re-trigger animations
+                const animatedElements = view.querySelectorAll('.fade-up');
+                animatedElements.forEach(el => {
+                    el.style.animation = 'none';
+                    el.offsetHeight; 
+                    el.style.animation = null; 
+                });
+            });
+            
+            // Add active class to specific targets
             document.getElementById('tab-' + tabId).classList.add('active');
             document.getElementById('view-' + tabId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // --- FAQ LOGIC ---
+        // FAQ LOGIC
         document.querySelectorAll('.faq-question').forEach(item => {
             item.addEventListener('click', () => {
                 item.parentElement.classList.toggle('active');
             });
         });
 
+        // UPLOAD LOGIC
         const fileInput = document.getElementById("imageInput");
         const fileNameDisplay = document.getElementById("file-name-display");
         const analyzeBtn = document.getElementById("analyzeBtn");
@@ -472,7 +397,7 @@
             }
         });
 
-        // 🌟 WEATHER FETCHING LOGIC (With Graceful Fallback)
+        // WEATHER LOGIC
         function fetchWeatherContext(diseaseHtmlText) {
             const weatherCard = document.getElementById("weather-card");
             const wAlert = document.getElementById("w-alert");
@@ -488,16 +413,13 @@
 
             navigator.geolocation.getCurrentPosition(async (position) => {
                 wAlert.innerHTML = "📡 <strong>Location secured.</strong> Downloading satellite weather data...";
-                
                 try {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
-                    
                     const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m`);
-                    if (!response.ok) throw new Error("Network blocked API");
+                    if (!response.ok) throw new Error("API Blocked");
                     
                     const data = await response.json();
-                    
                     const temp = data.current.temperature_2m;
                     const humidity = data.current.relative_humidity_2m;
                     
@@ -514,22 +436,17 @@
                     } else if (temp < 15) {
                         alertMessage = `<strong>❄️ Cold Temp Notice:</strong> It is ${temp}°C outside. Ensure your indoor plants are away from drafty windows as cold shock can mimic disease symptoms.`;
                     }
-
                     wAlert.innerHTML = alertMessage;
-
                 } catch (e) {
-                    // GRACEFUL FALLBACK: If API fails or is blocked, show safe estimated data
-                    wTemp.innerText = "24°C";
-                    wHum.innerText = "55% Hum";
+                    wTemp.innerText = "24°C"; wHum.innerText = "55% Hum";
                     wAlert.innerHTML = "⚠️ <strong>Notice:</strong> Live satellite data blocked by browser/network. Displaying estimated standard environment conditions.";
-                    console.error("Weather Fetch Failed:", e);
                 }
             }, (error) => {
                 wAlert.innerHTML = "📍 <strong>Location access denied.</strong> We cannot provide environmental context without knowing your climate.";
             }, { timeout: 8000 }); 
         }
 
-        // --- MAIN AI LOGIC ---
+        // MAIN AI LOGIC
         analyzeBtn.addEventListener("click", async () => {
             const printableReport = document.getElementById("printable-report");
             const resultDiv = document.getElementById("result");
@@ -544,7 +461,6 @@
             pdfAction.style.display = "none";
             weatherCard.style.display = "none";
             resultDiv.innerHTML = ""; 
-            
             loadingSpinner.style.display = "block"; 
             statusText.style.display = "block"; 
             
@@ -555,7 +471,6 @@
                 
                 loadingSpinner.style.display = "none";
                 statusText.style.display = "none";
-                
                 const htmlOutput = result.data[0];
 
                 resultDiv.innerHTML = htmlOutput;
@@ -563,7 +478,6 @@
                 
                 analyzeBtn.style.display = "block";
                 analyzeBtn.innerText = "↻ Analyse Another Leaf";
-
                 pdfAction.style.display = "block";
 
                 fetchWeatherContext(htmlOutput);
@@ -573,74 +487,47 @@
                 statusText.style.display = "none";
                 analyzeBtn.style.display = "block";
                 resultDiv.innerHTML = "<p style='color: #c0392b; text-align: center; padding: 25px; background: #fdf0f0; border-radius: 14px;'>Connection Error. Please ensure your backend is active.</p>";
-                console.error(error);
             }
         });
 
-        
-       // 🌟 ULTIMATE PDF DOWNLOAD LOGIC
+        // PDF DOWNLOAD LOGIC
         document.getElementById("downloadPdfBtn").addEventListener("click", async () => {
             const btn = document.getElementById("downloadPdfBtn");
             const originalText = btn.innerHTML;
             btn.innerHTML = "⏳ Generating Professional PDF...";
-            
             const element = document.getElementById("printable-report");
             
-            // Backup original styles
             const origBg = element.style.backgroundColor;
             const origPadding = element.style.padding;
             
-            // Set solid background to prevent transparent blank pages
-            element.style.backgroundColor = "#faf8f3"; 
+            element.style.backgroundColor = "#ffffff"; 
             element.style.padding = "30px"; 
             
             const opt = {
                 margin:       0.4,
                 filename:     'PlantCare_Diagnostic_Report.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true, 
-                    allowTaint: true, // 🛠 FIX: Forces the engine to draw external AI images without crashing
-                    scrollY: 0 
-                },
+                html2canvas:  { scale: 2, useCORS: true, allowTaint: true, scrollY: 0 },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
             try {
-                // Snap to top to prevent blank capture
                 const currentScroll = window.scrollY;
                 window.scrollTo(0, 0);
-
-                // Wait 100ms for the browser to catch up
                 await new Promise(resolve => setTimeout(resolve, 100));
-
-                // Generate PDF
                 await html2pdf().set(opt).from(element).save();
 
-                // Restore UI on Success
                 btn.innerHTML = "✅ Download Complete!";
                 element.style.backgroundColor = origBg;
                 element.style.padding = origPadding;
                 window.scrollTo(0, currentScroll);
-                
                 setTimeout(() => { btn.innerHTML = originalText; }, 3000);
 
             } catch (err) {
-                console.error("PDF Engine Error: ", err);
-                
-                // 🛠 GRACEFUL FALLBACK: If the library crashes due to strict browser security, 
-                // we trigger the native browser print window!
                 btn.innerHTML = "⚠️ Triggering Browser PDF Fallback...";
-                
-                // Restore styles before printing
                 element.style.backgroundColor = origBg;
                 element.style.padding = origPadding;
-                
-                setTimeout(() => { 
-                    window.print(); // Opens the native print dialog (users can choose "Save as PDF")
-                    btn.innerHTML = originalText; 
-                }, 1500);
+                setTimeout(() => { window.print(); btn.innerHTML = originalText; }, 1500);
             }
         });
     </script>
