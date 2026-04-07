@@ -481,46 +481,71 @@
             }
         });
 
-        // 🌟 HARDENED PDF DOWNLOAD LOGIC
-        document.getElementById("downloadPdfBtn").addEventListener("click", () => {
+        
+       // 🌟 ULTIMATE PDF DOWNLOAD LOGIC
+        document.getElementById("downloadPdfBtn").addEventListener("click", async () => {
             const btn = document.getElementById("downloadPdfBtn");
             const originalText = btn.innerHTML;
             btn.innerHTML = "⏳ Generating Professional PDF...";
             
             const element = document.getElementById("printable-report");
             
+            // Backup original styles
+            const origBg = element.style.backgroundColor;
+            const origPadding = element.style.padding;
+            
             // Set solid background to prevent transparent blank pages
             element.style.backgroundColor = "#faf8f3"; 
             element.style.padding = "30px"; 
             
-            // Save current position and snap to top
-            const currentScroll = window.scrollY;
-            window.scrollTo(0, 0);
-            
             const opt = {
-                margin:       0.3,
+                margin:       0.4,
                 filename:     'PlantCare_Diagnostic_Report.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    allowTaint: true, // 🛠 FIX: Forces the engine to draw external AI images without crashing
+                    scrollY: 0 
+                },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            // 🛠 The Magic Fix: Wait 150ms for the browser to finish scrolling before snapping the PDF!
-            setTimeout(() => {
-                html2pdf().set(opt).from(element).save().then(() => {
-                    // Revert UI and snap back down seamlessly
-                    btn.innerHTML = originalText;
-                    element.style.backgroundColor = "transparent";
-                    element.style.padding = "20px 0 0 0";
-                    window.scrollTo(0, currentScroll);
-                }).catch(err => {
-                    console.error("PDF Engine Error: ", err);
-                    btn.innerHTML = "❌ Error generating PDF";
-                    element.style.backgroundColor = "transparent";
-                    element.style.padding = "20px 0 0 0";
-                    setTimeout(() => { btn.innerHTML = originalText; window.scrollTo(0, currentScroll); }, 3000);
-                });
-            }, 150);
+            try {
+                // Snap to top to prevent blank capture
+                const currentScroll = window.scrollY;
+                window.scrollTo(0, 0);
+
+                // Wait 100ms for the browser to catch up
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                // Generate PDF
+                await html2pdf().set(opt).from(element).save();
+
+                // Restore UI on Success
+                btn.innerHTML = "✅ Download Complete!";
+                element.style.backgroundColor = origBg;
+                element.style.padding = origPadding;
+                window.scrollTo(0, currentScroll);
+                
+                setTimeout(() => { btn.innerHTML = originalText; }, 3000);
+
+            } catch (err) {
+                console.error("PDF Engine Error: ", err);
+                
+                // 🛠 GRACEFUL FALLBACK: If the library crashes due to strict browser security, 
+                // we trigger the native browser print window!
+                btn.innerHTML = "⚠️ Triggering Browser PDF Fallback...";
+                
+                // Restore styles before printing
+                element.style.backgroundColor = origBg;
+                element.style.padding = origPadding;
+                
+                setTimeout(() => { 
+                    window.print(); // Opens the native print dialog (users can choose "Save as PDF")
+                    btn.innerHTML = originalText; 
+                }, 1500);
+            }
         });
     </script>
 </body>
